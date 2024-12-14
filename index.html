@@ -16,7 +16,7 @@
     window.Telegram.WebApp.ready();
 
     const user = window.Telegram.WebApp.initDataUnsafe.user;
-    console.log('Foydalanuvchi ma\'lumotlari:', user);
+    alert('Foydalanuvchi ma\'lumotlari:', user);
 
     // Telegram orqali backend'ga loglar yuborish
     fetch('https://<YOUR_BACKEND_URL>/log', {
