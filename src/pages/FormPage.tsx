@@ -11,10 +11,22 @@ export function FormPage() {
     company: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Here we'll add Telegram Web App integration
     console.log(formData);
+
+      // Telegram orqali backend'ga loglar yuborish
+      try{
+        await fetch('https://11b0-92-63-205-129.ngrok-free.app/log', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ message: 'Web App ochildi!', formData }),
+     });     
+      } catch(err){
+         alert(err)
+      }
+
   };
 
   return (
