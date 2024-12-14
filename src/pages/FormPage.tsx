@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useCloudStorage from "@/hooks/useCloudStorage";
 import { User2, Phone, Mail, Building2 } from "lucide-react";
+import { useTelegram } from "@/hooks/useTelegram";
 
 interface IFormData {
   fullName: string;
@@ -11,20 +12,22 @@ interface IFormData {
   company: string;
 }
 
-const initial_values: IFormData = {fullName: "t", phone: "t", email: "t", company: "t"}
+const initial_values: IFormData = {fullName: "", phone: "", email: "", company: ""}
+const ANKETA_DATA_SAVE_KEY = "ANKETA_DATA_SAVE_KEY"
 
 export function FormPage() {
-  const [formData, setFormData] = useState<IFormData>(initial_values);
+  const [formData, setFormData] = useState(initial_values);
   const [loading, setLoading] = useState(false)
   const { getItem, setItem } = useCloudStorage();
+  const { user } = useTelegram();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const get_cloud_value = await getItem("exampleKey");
-        const values: IFormData = JSON.parse(get_cloud_value ?? {});
-        setFormData(values ? values : initial_values);
+        const get_cloud_value = await getItem(ANKETA_DATA_SAVE_KEY);
+        const values: IFormData = get_cloud_value ? JSON.parse(get_cloud_value) : initial_values;
+        setFormData(values);
       } catch (error) {
         alert(`Error fetching data: ${error}`);
       } finally{
@@ -51,11 +54,11 @@ export function FormPage() {
     try {
       setLoading(true)
       // Ma'lumot saqlash
-      await setItem("exampleKey", JSON.stringify(formData));
+      await setItem(ANKETA_DATA_SAVE_KEY, JSON.stringify(formData));
       alert("Data stored successfully");
 
       // Ma'lumotni olish
-      // const value = await getItem('exampleKey');
+      // const value = await getItem(ANKETA_DATA_SAVE_KEY);
       // alert(`Retrieved value:${value}`);
 
       // Kalitlarni olish
@@ -73,7 +76,7 @@ export function FormPage() {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900">Анкета</h1>
-        <p className="mt-2 text-gray-600">Пожалуйста, заполните форму ниже</p>
+        <p className="mt-2 text-gray-600">Пожалуйста, заполните форму ниже {user?.first_name}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -108,7 +111,7 @@ export function FormPage() {
           <label className="text-sm font-medium text-gray-700">Email</label>
           <div className="relative">
             <Input
-              type="email"
+              // type="email"
               placeholder="example@email.com"
               value={formData.email}
               disabled={loading}
