@@ -18,7 +18,7 @@ export function FormPage() {
 
       // Telegram orqali backend'ga loglar yuborish
       try{
-        await fetch('https://4bbd-92-63-205-129.ngrok-free.app/log', {
+        await fetch('https://9c67-185-139-138-129.ngrok-free.app/log', {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify({ message: 'Web App ochildi!', formData }),
