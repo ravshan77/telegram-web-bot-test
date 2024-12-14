@@ -75,7 +75,7 @@ export function FormPage() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Анкета</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Anketa</h1>
         <p className="mt-2 text-gray-600">{user?.first_name}, Пожалуйста заполните форму</p>
       </div>
 
