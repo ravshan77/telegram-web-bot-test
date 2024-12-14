@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { User2, Phone, Mail, Building2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import useCloudStorage from "@/hooks/useCloudStorage";
+import { User2, Phone, Mail, Building2 } from "lucide-react";
 
 interface IFormData {
   fullName: string;
@@ -11,18 +11,24 @@ interface IFormData {
   company: string;
 }
 
+const initial_values: IFormData = {fullName: "t", phone: "t", email: "t", company: "t"}
+
 export function FormPage() {
-  const [formData, setFormData] = useState<IFormData>({fullName: "", phone: "", email: "", company: "" });
+  const [formData, setFormData] = useState<IFormData>(initial_values);
+  const [loading, setLoading] = useState(false)
   const { getItem, setItem } = useCloudStorage();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const get_cloud_value = await getItem("exampleKey");
-        const values: IFormData = JSON.parse(get_cloud_value);
-        setFormData(values);
+        const values: IFormData = JSON.parse(get_cloud_value ?? {});
+        setFormData(values ? values : initial_values);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        alert(`Error fetching data: ${error}`);
+      } finally{
+        setLoading(false)
       }
     };
 
@@ -41,8 +47,9 @@ export function FormPage() {
     //   } catch(err){
     //      alert(err)
     //   }
-
+    
     try {
+      setLoading(true)
       // Ma'lumot saqlash
       await setItem("exampleKey", JSON.stringify(formData));
       alert("Data stored successfully");
@@ -56,7 +63,10 @@ export function FormPage() {
       // alert(`All keys: ${keys}`);
     } catch (error) {
       alert(`CloudStorage error: ${error}`);
+    }finally{
+      setLoading(false)
     }
+    
   };
 
   return (
@@ -73,6 +83,7 @@ export function FormPage() {
             <Input
               placeholder="Введите ваше полное имя"
               value={formData.fullName}
+              disabled={loading}
               onChange={(e) => setFormData(prev_values => ({ ...prev_values, fullName: e.target.value }))}
             />
             <User2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
@@ -86,6 +97,7 @@ export function FormPage() {
               type="tel"
               placeholder="+7 (999) 999-99-99"
               value={formData.phone}
+              disabled={loading}
               onChange={(e) => setFormData(prev_values => ({ ...prev_values, phone: e.target.value })) }
             />
             <Phone className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
@@ -99,6 +111,7 @@ export function FormPage() {
               type="email"
               placeholder="example@email.com"
               value={formData.email}
+              disabled={loading}
               onChange={(e) => setFormData(prev_values => ({ ...prev_values, email: e.target.value })) }
             />
             <Mail className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
@@ -111,13 +124,14 @@ export function FormPage() {
             <Input
               placeholder="Название компании"
               value={formData.company}
+              disabled={loading}
               onChange={(e) => setFormData(prev_values => ({ ...prev_values, company: e.target.value }))}
             />
             <Building2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
           </div>
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={loading}>
           Отправить
         </Button>
       </form>
