@@ -19,7 +19,7 @@
     alert('Foydalanuvchi ma\'lumotlari:', user);
 
     // Telegram orqali backend'ga loglar yuborish
-    fetch('https://<YOUR_BACKEND_URL>/log', {
+    fetch('https://https://e66f-92-63-205-129.ngrok-free.app/telegram-webhook/log', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: 'Web App ochildi!', user }),
