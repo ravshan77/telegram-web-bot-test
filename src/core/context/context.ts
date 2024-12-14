@@ -6,7 +6,7 @@ export const getWebAppFromGlobal = () => {
   if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
     return window.Telegram.WebApp;
   } else {
-    console.log('Telegram WebApp is not available in this environment.');
+    alert('Telegram WebApp is not available in this environment.');
     return null;
   }
 };
