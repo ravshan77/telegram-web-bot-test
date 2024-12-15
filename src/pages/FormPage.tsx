@@ -41,18 +41,20 @@ export function FormPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Telegram orqali backend'ga loglar yuborish
-    //   try{
-    //     await fetch('https://9c67-185-139-138-129.ngrok-free.app/log', {
-    //      method: 'POST',
-    //      headers: { 'Content-Type': 'application/json' },
-    //      body: JSON.stringify(formData),
-    //  });
-    //   } catch(err){
-    //      alert(err)
-    //   }
+    try{
+      setLoading(true)
+        await fetch('https://9c67-185-139-138-129.ngrok-free.app/log', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(formData),
+     });
+      } catch(err){
+         alert(err)
+      }finally{
+        setLoading(false)
+      }
     
     try {
-      setLoading(true)
       // Ma'lumot saqlash
       await setItem(ANKETA_DATA_SAVE_KEY, JSON.stringify(formData));
       alert("Data stored successfully");
@@ -66,8 +68,6 @@ export function FormPage() {
       // alert(`All keys: ${keys}`);
     } catch (error) {
       alert(`CloudStorage error: ${error}`);
-    }finally{
-      setLoading(false)
     }
     
   };
