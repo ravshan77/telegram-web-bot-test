@@ -4,13 +4,8 @@ import { Button } from "@/components/ui/button";
 import useCloudStorage from "@/hooks/useCloudStorage";
 import { User2, Phone, Mail, Building2 } from "lucide-react";
 import { useTelegram } from "@/hooks/useTelegram";
+import { IFormData } from "./types";
 
-interface IFormData {
-  fullName: string;
-  phone: string;
-  email: string;
-  company: string;
-}
 
 const initial_values: IFormData = {fullName: "", phone: "", email: "", company: ""}
 const ANKETA_DATA_SAVE_KEY = "ANKETA_DATA_SAVE_KEY"
@@ -29,7 +24,7 @@ export function FormPage() {
         const values: IFormData = get_cloud_value ? JSON.parse(get_cloud_value) : initial_values;
         setFormData(values);
       } catch (error) {
-        alert(`Error fetching data: ${error}`);
+        // alert(`Error fetching data: ${error}`);
       } finally{
         setLoading(false)
       }
@@ -49,7 +44,7 @@ export function FormPage() {
          body: JSON.stringify(formData),
      });
       } catch(err){
-         alert(err)
+        //  alert(err)
       }finally{
         setLoading(false)
       }
@@ -57,7 +52,7 @@ export function FormPage() {
     try {
       // Ma'lumot saqlash
       await setItem(ANKETA_DATA_SAVE_KEY, JSON.stringify(formData));
-      alert("Data stored successfully");
+      // alert("Data stored successfully");
 
       // Ma'lumotni olish
       // const value = await getItem(ANKETA_DATA_SAVE_KEY);
@@ -67,25 +62,26 @@ export function FormPage() {
       // const keys = await getKeys();
       // alert(`All keys: ${keys}`);
     } catch (error) {
-      alert(`CloudStorage error: ${error}`);
+      // alert(`CloudStorage error: ${error}`);
     }
     
   };
 
   return (
-    <div className="space-y-6">
+    <div className="border border-red-500 px-4">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900">Anketa</h1>
         <p className="mt-2 text-gray-600">{user?.first_name}, Пожалуйста заполните форму</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="">
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">ФИО</label>
-          <div className="relative">
+          <div className="relative bg-white rounded-md">
             <Input
               placeholder="Введите ваше полное имя"
               value={formData.fullName}
+              autoFocus
               disabled={loading}
               onChange={(e) => setFormData(prev_values => ({ ...prev_values, fullName: e.target.value }))}
             />
@@ -134,10 +130,39 @@ export function FormPage() {
           </div>
         </div>
 
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Компания</label>
+          <div className="relative">
+            <Input
+              placeholder="Название компании"
+              value={formData.company}
+              disabled={loading}
+              onChange={(e) => setFormData(prev_values => ({ ...prev_values, company: e.target.value }))}
+            />
+            <Building2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Компания</label>
+          <div className="relative">
+            <Input
+              placeholder="Название компании"
+              value={formData.company}
+              disabled={loading}
+              onChange={(e) => setFormData(prev_values => ({ ...prev_values, company: e.target.value }))}
+            />
+            <Building2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
+          </div>
+        </div>
+
         <Button type="submit" className="w-full" disabled={loading}>
           Отправить
         </Button>
       </form>
+
+      
+      
     </div>
   );
 }
