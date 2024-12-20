@@ -1,78 +1,31 @@
-import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import useCloudStorage from "@/hooks/useCloudStorage";
-import { User2, Phone, Mail, Building2 } from "lucide-react";
-import { useTelegram } from "@/hooks/useTelegram";
 import { IFormData } from "./types";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { User2, Phone } from "lucide-react";
+import { useTelegram } from "@/hooks/useTelegram";
+// import { DatePicker } from "@/components/ui/datePicker";
 
 
-const initial_values: IFormData = {fullName: "", phone: "", email: "", company: ""}
-const ANKETA_DATA_SAVE_KEY = "ANKETA_DATA_SAVE_KEY"
+const initial_values: IFormData = {fullName: "", phone: "", email: "", company: "", dateOfBirth: null}
 
 export function FormPage() {
   const [formData, setFormData] = useState(initial_values);
-  const [loading, setLoading] = useState(false)
-  const { getItem, setItem } = useCloudStorage();
-  const { user } = useTelegram();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      try {
-        const get_cloud_value = await getItem(ANKETA_DATA_SAVE_KEY);
-        const values: IFormData = get_cloud_value ? JSON.parse(get_cloud_value) : initial_values;
-        setFormData(values);
-      } catch (error) {
-        // alert(`Error fetching data: ${error}`);
-      } finally{
-        setLoading(false)
-      }
-    };
-
-    fetchData();
-  }, [getItem]);
+  const [loading] = useState(false)
+  const tg: any = useTelegram()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Telegram orqali backend'ga loglar yuborish
-    try{
-      setLoading(true)
-        await fetch(' https://1637-185-139-138-215.ngrok-free.app/log', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(formData),
-     });
-      } catch(err){
-        //  alert(err)
-      }finally{
-        setLoading(false)
-      }
-    
-    try {
-      // Ma'lumot saqlash
-      await setItem(ANKETA_DATA_SAVE_KEY, JSON.stringify(formData));
-      // alert("Data stored successfully");
-
-      // Ma'lumotni olish
-      // const value = await getItem(ANKETA_DATA_SAVE_KEY);
-      // alert(`Retrieved value:${value}`);
-
-      // Kalitlarni olish
-      // const keys = await getKeys();
-      // alert(`All keys: ${keys}`);
-    } catch (error) {
-      // alert(`CloudStorage error: ${error}`);
-    }
-    
+    // 
   };
 
   return (
     <div className="border border-red-500 px-4">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900">Anketa</h1>
-        <p className="mt-2 text-gray-600">{user?.first_name}, Пожалуйста заполните форму</p>
+        <p className="mt-2 text-gray-600"> Пожалуйста заполните форму</p>
       </div>
+
+      <pre>{tg.user}</pre>
 
       <form onSubmit={handleSubmit} className="">
         <div className="space-y-2">
@@ -103,62 +56,16 @@ export function FormPage() {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Email</label>
-          <div className="relative">
-            <Input
-              // type="email"
-              placeholder="example@email.com"
-              value={formData.email}
-              disabled={loading}
-              onChange={(e) => setFormData(prev_values => ({ ...prev_values, email: e.target.value })) }
-            />
-            <Mail className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
-          </div>
-        </div>
+        {/* <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Дата рождения</label>
+          <DatePicker
+            value={formData.dateOfBirth}
+            onChange={(date) => setFormData((prev) => ({ ...prev, dateOfBirth: date }))}
+            disabled={loading}
+            placeholder="Выберите дату"
+          />
+        </div> */}
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Компания</label>
-          <div className="relative">
-            <Input
-              placeholder="Название компании"
-              value={formData.company}
-              disabled={loading}
-              onChange={(e) => setFormData(prev_values => ({ ...prev_values, company: e.target.value }))}
-            />
-            <Building2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Компания</label>
-          <div className="relative">
-            <Input
-              placeholder="Название компании"
-              value={formData.company}
-              disabled={loading}
-              onChange={(e) => setFormData(prev_values => ({ ...prev_values, company: e.target.value }))}
-            />
-            <Building2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Компания</label>
-          <div className="relative">
-            <Input
-              placeholder="Название компании"
-              value={formData.company}
-              disabled={loading}
-              onChange={(e) => setFormData(prev_values => ({ ...prev_values, company: e.target.value }))}
-            />
-            <Building2 className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
-          </div>
-        </div>
-
-        <Button type="submit" className="w-full" disabled={loading}>
-          Отправить
-        </Button>
       </form>
 
       

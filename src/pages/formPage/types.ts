@@ -3,4 +3,5 @@ export type IFormData = {
     phone: string;
     email: string;
     company: string;
+    dateOfBirth: string | null | Date
   }
