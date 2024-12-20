@@ -11,17 +11,12 @@ const initial_values: IFormData = {fullName: "", phone: "", email: "", company: 
 export function FormPage() {
   const [formData, setFormData] = useState(initial_values);
   const [loading] = useState(false)
-  const {user}: { user:any } = useTelegram()
+  const {user} = useTelegram()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 
   };
-
-  // useEffect(() => {
-  //  alert(user)
-  // },[])
-
 
   return (
     <div className="border border-red-500 px-4">
@@ -30,7 +25,12 @@ export function FormPage() {
         <p className="mt-2 text-gray-600"> Пожалуйста заполните форму</p>
       </div>
 
-<code>{user}</code>
+      <code>
+        {user
+          ? JSON.stringify(user, null, 2) // Obyektni JSON formatida ko'rsatish
+          : "Foydalanuvchi ma'lumotlari mavjud emas"}
+      </code>
+
       <form onSubmit={handleSubmit} className="">
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">ФИО</label>
