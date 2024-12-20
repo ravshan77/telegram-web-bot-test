@@ -1,5 +1,5 @@
 import { IFormData } from "./types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { User2, Phone } from "lucide-react";
 import { useTelegram } from "@/hooks/useTelegram";
@@ -11,16 +11,16 @@ const initial_values: IFormData = {fullName: "", phone: "", email: "", company: 
 export function FormPage() {
   const [formData, setFormData] = useState(initial_values);
   const [loading] = useState(false)
-  const {user} = useTelegram()
+  const {user}: { user:any } = useTelegram()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 
   };
 
-  useEffect(() => {
-   alert(user)
-  },[])
+  // useEffect(() => {
+  //  alert(user)
+  // },[])
 
 
   return (
@@ -30,7 +30,7 @@ export function FormPage() {
         <p className="mt-2 text-gray-600"> Пожалуйста заполните форму</p>
       </div>
 
-
+<code>{user}</code>
       <form onSubmit={handleSubmit} className="">
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">ФИО</label>
