@@ -9,3 +9,9 @@ declare global {
     TelegramWebviewProxy?: any;
   }
 }
+
+
+declare module 'react-mobile-datepicker' {
+  const value: any;
+  export default value;
+}
