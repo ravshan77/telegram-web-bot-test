@@ -31,24 +31,29 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     control: (base) => ({
       ...base,
       minHeight: "40px",
-      borderColor: required && !value ? "red" : base.borderColor,
+      //? borderColor: required && !value ? "red" : base.borderColor,
       ...styles,
     }),
     placeholder: (base) => ({
       ...base,
-      color: required && !value ? "red" : base.color,
+      //? color: required && !value ? "red" : base.color,
     }),
   };
 
+  const _value = options.find(opt => String(opt.id) === String(value))
+  const _options = options.map(opt => ({ ...opt, label: opt.name, value: opt.id }))
+  
+  const selectedOption = _value ? { id: _value.id, name: _value.name, label: _value.name, value: _value.id } : undefined;
 
   return (
     <Select
       name={name}
       isMulti={false}
-      value={options.find(op => String(op.value) === String(value))}
-      options={options}
+      value={selectedOption}
+      options={_options}
       isLoading={loading}
       isDisabled={disabled}
+      required={required}
       className={className}
       classNamePrefix="select"
       placeholder={placeholder}

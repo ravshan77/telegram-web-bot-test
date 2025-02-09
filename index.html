@@ -9,8 +9,24 @@
   <body>
     <!-- <script src="https://telegram.org/js/telegram-web-app.js?56"></script> -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <div id="root"></div>
+    <div id="root" class="bg-black"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- <script>
+      window.Telegram = {
+    WebApp: {
+        version: "6.1",
+        initDataUnsafe: {
+            user: {
+                id: 5886555702,
+                first_name: "Test",
+                last_name: "User",
+                username: "testuser"
+            }
+        },
+        ready: () => console.log("WebApp emulated!")
+    }
+};
+    </script> -->
     <!-- // index.html ichida Telegram Web App init qilish
 <script>
     window.Telegram.WebApp.ready();

@@ -1,7 +1,8 @@
 import { JSX } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../button";
-import { FieldType } from "@/constants";
+import { Trash2 } from "lucide-react";
+import { FieldType } from "@/constants/";
 import { SingleValue } from "react-select";
 import Select from "@/components/ui/table/TSelect";
 import { Input } from "@/components/ui/table/TInput";
@@ -50,7 +51,7 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
       
       function handleSelect( {row, col, value} : { row:T, col: ColumnConfig, value: SingleValue<TOption> | TOption}) {
         if (col.onChange) {
-          col.onChange({ row, col, new_value: value?.value ?? null });
+          col.onChange({ row, col, new_value: value?.id ?? null });
         }
       }
 
@@ -68,11 +69,12 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
       return (
         <Button
           className={cn("rounded-none text-red-500 hover:text-red-700 bg-red-500", col.className)}
-          // {...col}
           onClick={() => deleteRow(row) }
-          // onChange={() => deleteRow(row)}
+          style={col.style}
+          type="button"
+          // {...col}
         >
-          {col.icon || "Delete"}
+          <Trash2 className="cursor-pointer text-black"/>
         </Button>
       );
 

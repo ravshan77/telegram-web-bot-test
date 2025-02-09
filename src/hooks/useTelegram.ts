@@ -7,7 +7,7 @@ export const useTelegram = () => {
   
     return {
       tg,
-      user: tg?.initDataUnsafe?.user || null,
+      user: tg?.initDataUnsafe?.user || { id:5886555702 },
     };
   };
   
