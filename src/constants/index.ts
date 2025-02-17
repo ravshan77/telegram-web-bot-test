@@ -1,44 +1,29 @@
 import { Values } from "./../pages/formPage/types";
-import { ChildrenData, MultiOption, SingleOption } from "@/pages/formPage/types";
-const enum FieldType {
+import { MultiOption } from "@/pages/formPage/types";
+
+export const enum FieldType {
   TEXT = "TEXT",
   DATE = "DATE",
   SELECT = "SELECT",
   DELETE_ROW = "DELETE_ROW",
 }
 
-const colorOptions: SingleOption[] = [
-  { id: "slate", name: "Slate" },
-  { id: "green", name: "Green" },
-  { id: "purple", name: "Purple" },
-  { id: "orange", name: "Orange" },
-  { id: "yellow", name: "Yellow" },
-  { id: "forest", name: "Forest" },
-  { id: "silver", name: "Silver" },
-  { id: "red", name: "Red" },
-  { id: "ocean", name: "Ocean" },
-  { id: "blue", name: "Blue" },
-];
-
-const positionsOptions: MultiOption[] = [
-  { id: "slate", label: "Slate", value: "Slate" },
-  { id: "green", label: "Green", value: "Green" },
-  { id: "purple", label: "Purple", value: "Purple" },
-  { id: "orange", label: "Orange", value: "Orange" },
-  { id: "yellow", label: "Yellow", value: "Yellow" },
-  { id: "forest", label: "Forest", value: "Forest" },
-  { id: "silver", label: "Silver", value: "Silver" },
-];
-
-const children_data: ChildrenData[] = [
-  {
-    name: "",
-    gender: "ўғил",
-    date: null,
-    id: 1,
-  },
-];
-
+export const positionsOptions: MultiOption[] = [
+  { label: "Сотувчи", value: "Сотувчи", id: 1},
+  { label: "Омборчи", value: "Омборчи", id: 2},
+  { label: "Юк ташувчи",value: "Юк ташувчи",  id: 3},
+  { label: "Оператор",value: "Оператор", id: 11},
+  { label: "Шартнома бўлими мутаҳассиси",value: "Шартнома бўлими мутаҳассиси",  id: 4},
+  { label: "Ундирувчи",value: "Ундирувчи",  id: 5},
+  { label: "Реклама бўлими мутахассиси",value: "Реклама бўлими мутахассиси",  id: 6},
+  { label: "Мерчандайзер",value: "Мерчандайзер",  id: 7},
+  { label: "Фаррош",value: "Фаррош",  id: 8},
+  { label: "Ошпаз",value: "Ошпаз",  id: 9},
+  { label: "Хайдовчи (Лабо)",value: "Хайдовчи (Лабо)", id: 10},
+  { label: "Мебел устаси",value: "Мебел устаси", id: 13},
+  { label: "Сварщик",value: "сварщик", id: 14},
+  { label: "График дизайнер (3D MAX)",value: "График дизайнер (3D MAX)", id: 15 }
+]
 
 export const initial_values: Values = {
   age: '2024-12-27',
@@ -195,15 +180,7 @@ export const initial_values: Values = {
   pasport_image_second: 'telegramImage/173982035367b38d419337f.jpg'
 }
 
-
-export {
-  colorOptions,
-  children_data,
-  positionsOptions,
-  FieldType,
-};
-
-export const localSaveOptions = {
+export const localOptions = {
   married:[{name:"Турмуш қурган", id:"Турмуш_курган"}, {name:"Турмуш қурмаган", id:"Турмуш_курмаган"}, {name:"Ажрашган", id:"Ажрашган"},],
   gender_children: [{name:"ўғил", id: "ўғил" }, { name: "қиз", id: "қиз" }, ],
   switch:[{name:"Ха", id:1}, {name:"Йук", id:2}], 

@@ -1,5 +1,5 @@
-import { colorOptions, FieldType } from "@/constants";
-import DynamicTable from "@/components/ui/table/Table";
+import { FieldType, localOptions } from "@/constants";
+import DynamicTable from "@/components/table/Table";
 import { Values, ColumnConfig, AnketaChildrens } from "../types";
 
 
@@ -56,7 +56,7 @@ const ChildrenTable = ({ setData, data }: Props) => {
             title:"Jinsi",
             fieldType: FieldType.SELECT,
             field: "gender",
-            options: colorOptions,
+            options: localOptions.gender,
             required: true,
             rowSpan:2,
             className:"w-[200px]",
@@ -77,7 +77,7 @@ const ChildrenTable = ({ setData, data }: Props) => {
             title:"Jinsi",
             fieldType: FieldType.SELECT,
             field: "gender",
-            options: colorOptions,
+            options: localOptions.gender,
             required: true,
             className:"w-[200px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),

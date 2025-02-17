@@ -25,13 +25,6 @@ export interface MultiOption {
   label: string;
   value: string;
 }
-export interface ChildrenData {
-  gender: string;
-  date?: Date | null;
-  uuid?: string;
-  id?: null | number;
-  name: string;
-}
 export interface UuidId {
   uuid?: string;
   id?: string | number | null;
@@ -102,32 +95,31 @@ type AnketaWorkedBefores = {
 
 type Swetcher = "1" | "2" | "";
 
-type StringOrNull = string;
 
 export type Values = {
-  age: StringOrNull;
+  age: string;
   anketa_childrens: AnketaChildrens[];
   position: PositionsTypes[];
-  payload: StringOrNull;
-  eddition_phone_number: StringOrNull;
-  first_name: StringOrNull;
-  last_name: StringOrNull;
-  father_name: StringOrNull;
+  payload: string;
+  eddition_phone_number: string;
+  first_name: string;
+  last_name: string;
+  father_name: string;
   gender: Swetcher;
   anketa_healthys: AnketaHealthys[];
   martial_status: "Турмуш_курган" | "Турмуш_курмаган" | "Ажрашган";
   anketa_relations: AnketaRelations[];
-  education: StringOrNull;
+  education: string;
   education_place: EducationPlace[];
-  height: StringOrNull;
+  height: string;
   now_study: Swetcher;
   type_education: "Кундузги" | "Кечки" | "Сиртқи" | "Масофавий" | "";
   anketa_languages: AnketaLanguage[];
-  state_id: StringOrNull;
-  region_id: StringOrNull;
-  address: StringOrNull;
-  relation_company: StringOrNull;
-  branch_id: StringOrNull;
+  state_id: string;
+  region_id: string;
+  address: string;
+  relation_company: string;
+  branch_id: string;
   worked_company: Swetcher;
   citizen: Swetcher;
   job_now: Swetcher;
@@ -140,9 +132,9 @@ export type Values = {
   trip: Swetcher;
   about_vacancy: string;
   whether_convicted: Swetcher;
-  whether_convicted_description: StringOrNull;
-  image: StringOrNull;
+  whether_convicted_description: string;
+  image: string;
   pasport_type: "Оддий" | "ID карта" | "" | null;
-  pasport_image_first: StringOrNull;
-  pasport_image_second: StringOrNull;
+  pasport_image_first: string;
+  pasport_image_second: string;
 };

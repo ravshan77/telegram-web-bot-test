@@ -1,11 +1,11 @@
 import { JSX } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "../button";
+import { Button } from "../Button";
 import { Trash2 } from "lucide-react";
 import { FieldType } from "@/constants/";
 import { SingleValue } from "react-select";
-import Select from "@/components/ui/table/TSelect";
-import { Input } from "@/components/ui/table/TInput";
+import Select from "@/components/table/TSelect";
+import { Input } from "@/components/table/TInput";
 import { ColumnConfig, SingleOption } from "@/pages/formPage/types";
 
 interface GenerateFieldProps<T> {

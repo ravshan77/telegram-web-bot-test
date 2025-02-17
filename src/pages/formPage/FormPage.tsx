@@ -1,17 +1,17 @@
 // import { debounce } from "lodash";
 import { Values } from "./types";
 import { User2, Phone } from "lucide-react";
-import Select from "@/components/ui/select";
+import Select from "@/components/Select";
 import { useCallback, useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/Input";
 // import { useTelegram } from "@/hooks/useTelegram";
 // import useCloudStorage from "@/hooks/useCloudStorage";
-import MultiSelect from "@/components/ui/multiSelect";
+import MultiSelect from "@/components/MultiSelect";
 import ChildrenTable from "./components/ChildrenTable";
-import ImageUploader from "@/components/ui/uploadImage";
-import { NumberInput } from "@/components/ui/numberInput";
-import { PhoneNumberInput } from "@/components/ui/phoneNumberInput";
-import { colorOptions, initial_values, positionsOptions } from "@/constants/index";
+import ImageUploader from "@/components/UploadImage";
+import { NumberInput } from "@/components/NumberInput";
+import { PhoneNumberInput } from "@/components/PhoneNumberInput";
+import { initial_values, localOptions, positionsOptions } from "@/constants/index";
 
 
 export function FormPage() {
@@ -104,7 +104,7 @@ export function FormPage() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-white">Select</label>
           <div className="relative">
-            <Select name={"gender"} options={colorOptions} value={data.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: target?.id }))} required />
+            <Select name={"gender"} options={localOptions.gender} value={data.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: target?.id }))} required />
           </div>
         </div>
 

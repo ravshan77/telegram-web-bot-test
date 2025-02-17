@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 import { User2 } from "lucide-react";
 
 
