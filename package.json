@@ -20,6 +20,7 @@
     "react-dom": "^19.0.0",
     "react-mobile-datepicker": "^4.0.2",
     "react-native-date-picker": "^5.0.8",
+    "react-number-format": "^5.4.3",
     "react-router-dom": "^7.1.1",
     "react-select": "^5.9.0",
     "rmc-date-picker": "^6.0.10",

@@ -1,5 +1,5 @@
 import React from "react";
-import { TOption } from "@/pages/formPage/types";
+import { SingleOption } from "@/pages/formPage/types";
 import Select, { CSSObjectWithLabel, SingleValue, StylesConfig } from "react-select";
 
 interface CustomSelectProps {
@@ -8,11 +8,11 @@ interface CustomSelectProps {
   disabled?: boolean;
   required?: boolean;
   className?: string;
-  options: TOption[];
+  options: SingleOption[];
   placeholder?: string;
   loading?: boolean;
   styles?:  CSSObjectWithLabel;
-  onChange: (target: SingleValue<TOption>) => void;
+  onChange: (target: SingleValue<SingleOption>) => void;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -27,7 +27,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   disabled = false,
   placeholder = "Tanlang",
 }) => {
-  const defaultStyles: StylesConfig<TOption> = {
+  const defaultStyles: StylesConfig<SingleOption> = {
     control: (base) => ({
       ...base,
       minHeight: "40px",

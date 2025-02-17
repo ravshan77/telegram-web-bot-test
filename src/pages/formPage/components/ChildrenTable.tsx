@@ -1,15 +1,15 @@
 import { colorOptions, FieldType } from "@/constants";
 import DynamicTable from "@/components/ui/table/Table";
-import { IFormData, ChildrenData, ColumnConfig } from "../types";
+import { Values, ColumnConfig, AnketaChildrens } from "../types";
 
 
 interface Props {
-  data: IFormData,
-  setData: React.Dispatch<React.SetStateAction<IFormData>>,
+  data: Values,
+  setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 
 interface ChangeTable {
-  row: ChildrenData; 
+  row: AnketaChildrens; 
   col: ColumnConfig; 
   new_value: string; 
 }
@@ -18,7 +18,7 @@ const ChildrenTable = ({ setData, data }: Props) => {
 
     const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
         setData((prev) => {
-          const table = prev.children_data;
+          const table = prev.anketa_childrens;
           if (Array.isArray(table)) {
             const updatedTable = table.map((dta) => {
               if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -28,7 +28,7 @@ const ChildrenTable = ({ setData, data }: Props) => {
               }
               return dta;
             });
-            return { ...prev, children_data: updatedTable };
+            return { ...prev, anketa_childrens: updatedTable };
           }
           return prev;
         });
@@ -92,10 +92,10 @@ const ChildrenTable = ({ setData, data }: Props) => {
         
          Children table</label>
         <div>
-          <DynamicTable<ChildrenData, IFormData> 
+          <DynamicTable<AnketaChildrens, Values> 
             columns={columns} 
-            name={"children_data"} 
-            data={data.children_data} 
+            name={"anketa_childrens"} 
+            data={data.anketa_childrens} 
             setData={setData} 
           />
         </div> 
