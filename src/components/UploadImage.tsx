@@ -63,7 +63,7 @@ const ImageUploader: React.FC<Props> = ({ onChange, value, name }) => {
     <div>
       {value ? (
         <div className="relative">
-          <img src={`${image_url}/storage/${value}`} alt="Rasm" className="h-56 w-full rounded-md"/>
+          <img src={`${image_url}/storage/${value}`} alt="Rasm" className="h-56 w-full rounded-md border border-gray-500"/>
           <Trash2 onClick={handleDelete} className="absolute h-8 w-8 p-[2px] bottom-1 right-1 rounded text-red-500 cursor-pointer" />
         </div>
       ) : (

@@ -6,8 +6,7 @@ export interface InputProps
   error?: boolean;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, error = false, ...props }, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ className, error = false, ...props }, ref) => {
     return (
       <input
         className={cn(
@@ -16,7 +15,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
-        style={props.style}
         {...props}
       />
     );

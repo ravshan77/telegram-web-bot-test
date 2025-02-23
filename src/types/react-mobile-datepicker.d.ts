@@ -1,27 +1,3 @@
-// declare module 'react-mobile-datepicker' {
-//     import { Component } from 'react';
-  
-//     interface DatePickerProps {
-//       isOpen: boolean;
-//       onSelect: (date: Date) => void;
-//       onCancel: () => void;
-//       dateConfig?: Record<string, any>;
-//       theme?: string;
-//       min?: Date;
-//       max?: Date;
-//       cancelText?: string;
-//       confirmText?: string;
-//       headerFormat?: string;
-//       showCaption?: boolean;
-//       showFooter?: boolean;
-//     }
-  
-//     class DatePicker extends Component<DatePickerProps> {}
-//     export default DatePicker;
-//   }
-  
-
-
 declare module 'react-mobile-datepicker' {
   import { Component } from 'react';
 

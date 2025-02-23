@@ -43,11 +43,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   const _value = options.find(opt => String(opt.id) === String(value))
   const _options = options.map(opt => ({ ...opt, label: opt.name, value: opt.id }))
   
-  const selectedOption = _value ? { id: _value.id, name: _value.name, label: _value.name, value: _value.id } : undefined;
+  const selectedOption = _value ? { id: _value.id, name: _value.name, label: _value.name, value: _value.id } : null;
 
   return (
     <Select
       name={name}
+      key={name}
       isMulti={false}
       value={selectedOption}
       options={_options}

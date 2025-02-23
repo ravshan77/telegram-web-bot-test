@@ -143,7 +143,7 @@ export const initial_values: Values = {
   state_id: '1',
   region_id: '3',
   address: 'Karshi',
-  relation_company: 'Our meta',
+  relation_company: '',
   branch_id: '65',
   worked_company: '2',
   citizen: '2',

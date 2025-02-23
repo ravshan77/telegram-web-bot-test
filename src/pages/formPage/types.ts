@@ -38,7 +38,7 @@ export type AnketaChildrens = {
   id: string | number | null;
 };
 
-type AnketaHealthys = {
+export type AnketaHealthys = {
   question: string;
   status: "1" | "2" | "";
   id: string | number | null;
@@ -47,7 +47,7 @@ type AnketaHealthys = {
   inputId: string
 };
 
-type AnketaRelations = {
+export type AnketaRelations = {
   who: string;
   date: string;
   job: string;
@@ -55,13 +55,13 @@ type AnketaRelations = {
   id: string | number | null;
 };
 
-type PositionsTypes = {
+export type PositionsTypes = {
   label: string;
   value: string;
   id: number;
 };
 
-type EducationPlace = {
+export type EducationPlace = {
   start_date: string;
   education_name: string;
   end_date: string;
@@ -70,21 +70,21 @@ type EducationPlace = {
   id: string | number | null;
 };
 
-type AnketaLanguage = {
+export type AnketaLanguage = {
   name: string;
   level: string;
   uuid?: string;
   id: string | number | null;
 };
 
-type AnketaPrograms = {
+export type AnketaPrograms = {
   name: string;
   level: string;
   uuid?: string;
   id: string | number | null;
 };
 
-type AnketaWorkedBefores = {
+export type AnketaWorkedBefores = {
   start_date: string;
   end_date: string;
   company_name: string;

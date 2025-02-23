@@ -1,6 +1,6 @@
-import { FieldType, localOptions } from "@/constants";
 import DynamicTable from "@/components/table/Table";
-import { Values, ColumnConfig, AnketaChildrens } from "../types";
+import { FieldType, localOptions } from "@/constants";
+import { Values, ColumnConfig, AnketaRelations } from "../types";
 
 
 interface Props {
@@ -9,16 +9,16 @@ interface Props {
 }
 
 interface ChangeTable {
-  row: AnketaChildrens; 
+  row: AnketaRelations; 
   col: ColumnConfig; 
   new_value: string; 
 }
 
-const ChildrenTable = ({ setData, data }: Props) => {
+const AnketaRelationsTable = ({ setData, data }: Props) => {
 
     const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
         setData((prev) => {
-          const table = prev.anketa_childrens;
+          const table = prev.anketa_relations;
           if (Array.isArray(table)) {
             const updatedTable = table.map((dta) => {
               if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -28,7 +28,7 @@ const ChildrenTable = ({ setData, data }: Props) => {
               }
               return dta;
             });
-            return { ...prev, anketa_childrens: updatedTable };
+            return { ...prev, anketa_relations: updatedTable };
           }
           return prev;
         });
@@ -38,11 +38,12 @@ const ChildrenTable = ({ setData, data }: Props) => {
       [
         {
             title:"Kimi",
-            fieldType: FieldType.TEXT,
+            fieldType: FieldType.SELECT,
             rowSpan:2,
-            field: "name",
+            field: "who",
             placeholder: "Kim",
             required: true,
+            options: localOptions.kinship,
             className:"w-[200px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
@@ -50,17 +51,6 @@ const ChildrenTable = ({ setData, data }: Props) => {
             title:"Tug'ilgan sana",
             fieldType: FieldType.DATE,
             field: "date",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
-        },
-        {
-            title:"Jinsi",
-            fieldType: FieldType.SELECT,
-            field: "gender",
-            options: localOptions.gender,
-            required: true,
-            rowSpan:2,
-            className:"w-[200px]",
-            style:{ border:"", },
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -74,10 +64,9 @@ const ChildrenTable = ({ setData, data }: Props) => {
       ],
       [
         {
-            title:"Jinsi",
-            fieldType: FieldType.SELECT,
-            field: "gender",
-            options: localOptions.gender,
+            title:"Qayerda ishlaydi yoki o'qiydi",
+            fieldType: FieldType.TEXT,
+            field: "job",
             required: true,
             className:"w-[200px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
@@ -88,14 +77,12 @@ const ChildrenTable = ({ setData, data }: Props) => {
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> 
-        
-         Children table</label>
+        <label className="text-sm font-medium text-white"> Oliaviy tarkibingiz </label>
         <div>
-          <DynamicTable<AnketaChildrens, Values> 
+          <DynamicTable<AnketaRelations, Values> 
             columns={columns} 
-            name={"anketa_childrens"} 
-            data={data.anketa_childrens} 
+            name={"anketa_relations"} 
+            data={data.anketa_relations} 
             setData={setData} 
           />
         </div> 
@@ -103,4 +90,4 @@ const ChildrenTable = ({ setData, data }: Props) => {
   )
 }
 
-export default ChildrenTable
+export default AnketaRelationsTable
