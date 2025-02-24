@@ -20,10 +20,16 @@ import StatesSelect from "./components/StatesSelect";
 import RegionSelect from "./components/RegionSelect";
 import BranchesSelect from "./components/BranchesSelect";
 import PositionsSelect from "./components/PositionsSelect";
+import ProgramsTable from "./components/ProgramsTable";
+import HealthysTable from "./components/Healthystable";
+import { Textarea } from "@/components/Textarea";
+import WorkedBeforesTable from "./components/WorkedbeforesTable";
+import TermsOfConsentModal from "./components/TermsOfConsent";
 
 
 export function FormPage() {
   const [loading] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
   const [data, setData] = useState(initial_values);
   const handleSubmit = async (e: React.FormEvent) => { e.preventDefault() };
   // const user = useTelegram()
@@ -36,7 +42,7 @@ export function FormPage() {
 
   // getItem("user_form_data").then(console.log);
 
-  const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement> | { name: string; value: any }) => {
+  const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | { name: string; value: any }) => {
     setData((prev_values) => {
       const updatedData = "target" in e ? { ...prev_values, [e.target.name]: e.target.value } : { ...prev_values, [e.name]: e.value };
       // saveToCloudStorage(updatedData);
@@ -199,30 +205,104 @@ export function FormPage() {
           </div>
         </div>
 
-        {/* shu yergacha keldim inputlarni kiritishda  */}
-
+        <div className="space-y-2">
+          <ProgramsTable setData={setData} data={data} key={"anketa_progs"}/>
+        </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Qancha maosh xoxlaydi? (so'mda)</label>
+          <HealthysTable setData={setData} data={data} key={"anketa_healthys"}/>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Qo'shimcha ma'lumotlar </label>
+          <div className="relative bg-white rounded-md">
+            <Textarea value={data.other_info} name="other_info" rows={3} autoFocus onChange={handleChangeInput} disabled={loading} />
+            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <WorkedBeforesTable setData={setData} data={data} key={"anketa_worked_befores"}/>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white">Oxirgi ish joyida olgan ish xaqingiz (so'm)?</label>
           <div className="relative bg-white rounded-md">
             <NumberInput 
               format={true} 
-              value={data.payload} 
-              name="salary" 
+              value={data.salary_last_job} 
+              name="salary_last_job" 
               onChange={handleChangeInput} 
               disabled={loading} 
-              placeholder="Введите ваше полное oylik"
             />
             <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Телефон</label>
+          <label className="text-sm font-medium text-white">Qancha maosh xoxlaysiz? (so'm)</label>
+          <div className="relative bg-white rounded-md">
+            <NumberInput 
+              format={true} 
+              value={data.payload} 
+              name="payload" 
+              required
+              onChange={handleChangeInput} 
+              disabled={loading} 
+            />
+            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Shaxsiy avtomabilingiz bormi? * </label>
+          <div className="relative">
+            <Select name={"is_car"} options={localOptions.switch} value={data.is_car} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["is_car" as keyof Values]: target?.id }))} required />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Avtomabilingiz rusumi? * </label>
+          <div className="relative">
+            <Select name={"about_car"} options={localOptions.casr} value={data.about_car} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_car" as keyof Values]: target?.id }))} required />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Xizmat safariga bora olasizmi(Boshqa viloyat yoki tuman filiallarimizda ishlay olasizmi)? * </label>
+          <div className="relative">
+            <Select name={"trip"} options={localOptions.switch} value={data.trip} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["trip" as keyof Values]: target?.id }))} required />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Bo'sh ish o'rni haqida qayerdan bildingiz? * </label>
+          <div className="relative">
+            <Select name={"about_vacancy"} options={localOptions.found_job} value={data.about_vacancy} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_vacancy" as keyof Values]: target?.id }))} required />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Sudlanganmisiz? * </label>
+          <div className="relative">
+            <Select name={"whether_convicted"} options={localOptions.switch} value={data.whether_convicted} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["whether_convicted" as keyof Values]: target?.id }))} required />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white"> Sudlanganligingiz haqida qisqacha (Qaysi moddalar bo'yicha) </label>
+          <div className="relative bg-white rounded-md">
+            <Textarea value={data.whether_convicted_description} name="whether_convicted_description" rows={2} autoFocus onChange={handleChangeInput} disabled={loading} />
+            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white">Qo'shimcha telefon raqam</label>
           <div className="relative bg-white rounded-md">
             <PhoneNumberInput
               required
-              name="phone"
+              name="eddition_phone_number"
               placeholder="+998"
               value={data.eddition_phone_number}
               disabled={loading}
@@ -232,38 +312,37 @@ export function FormPage() {
           </div>
         </div>
 
-
+        <div className="space-y-2 flex flex-col items-center justify-center">
+          <label className="text-sm font-medium text-white">Shaxsiy rasmingiz * </label>
+          <div className="relative w-48">
+            <ImageUploader value={data.image} onChange={handleChangeInput} name="image" />
+          </div>
+        </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Multi Select</label>
+          <label className="text-sm font-medium text-white"> Pasport turi * </label>
           <div className="relative">
-            <MultiSelect name={"position"} options={positionsOptions} value={data.position} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["position" as keyof Values]: target }))} required />
+            <Select name={"pasport_type"} options={localOptions.pasport_type} value={data.pasport_type} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["pasport_type" as keyof Values]: target?.id }))} required />
           </div>
         </div>
-
 
         <div className="flex justify-between">
-          <div className="space-y-2 w-44">
-            <label className="text-sm font-medium text-white">Upload img </label>
+          <div className="space-y-2 w-[190px]">
+            <label className="text-sm font-medium text-white">Pasport rasmi(yoki ID card) * </label>
             <div className="relative">
-              <ImageUploader value={data.image} onChange={handleChangeInput} name={"image"} />
+              <ImageUploader value={data.pasport_image_first} onChange={handleChangeInput} name={"pasport_image_first"} />
             </div>
           </div>
 
-          <div className="space-y-2 w-44">
-            <label className="text-sm font-medium text-white">Upload img </label>
+          <div className="space-y-2 w-[190px]">
+            <label className="text-sm font-medium text-white"> ID card orqa tomon rasmi * </label>
             <div className="relative">
-              <ImageUploader value={data.pasport_image_first} onChange={handleChangeInput} name="pasport_image_first" />
+              <ImageUploader value={data.pasport_image_second} onChange={handleChangeInput} name="pasport_image_second" />
             </div>
           </div>
         </div>
 
-        <div className="space-y-2 w-48">
-          <label className="text-sm font-medium text-white">Upload img </label>
-          <div className="relative">
-            <ImageUploader value={data.pasport_image_second} onChange={handleChangeInput} name="pasport_image_second" />
-          </div>
-        </div>
+        <TermsOfConsentModal setShowConsentModal={setShowConsentModal} showConsentModal={showConsentModal}/>
         
         <button type="submit"> submit</button>
       </form>

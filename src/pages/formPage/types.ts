@@ -134,7 +134,7 @@ export type Values = {
   whether_convicted: Swetcher;
   whether_convicted_description: string;
   image: string;
-  pasport_type: "Оддий" | "ID карта" | "" | null;
+  pasport_type: "Оддий" | "ID карта" | "" ;
   pasport_image_first: string;
   pasport_image_second: string;
 };
