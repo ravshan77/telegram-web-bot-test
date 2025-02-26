@@ -4,11 +4,14 @@ import { Values } from '../types'
 
 interface Props {
   data: Values,
+  loading: boolean;
+  disabled: boolean;
+  required: boolean;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const StatesSelect = ({data, setData}: Props) => {
+const StatesSelect = ({data, setData, loading, required, disabled}: Props) => {
   const [stateOptions, setStateOptions] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loadingStates, setLoading] = useState(loading)
     
   useEffect(() => {
     const fetchData = async () => {
@@ -28,18 +31,16 @@ const StatesSelect = ({data, setData}: Props) => {
   }, []);
 
   return (
-    <>
-      <CustomSelect 
-        name={"state_id"} 
-        loading={loading}
-        key={"state_id"}
-        disabled={loading}
-        options={stateOptions} 
-        value={data.state_id}
-        onChange={(target) => setData((prev_values) => ({ ...prev_values, ["state_id" as keyof Values]: target?.id, ["region_id" as keyof Values]: null }))} 
-        required 
-      /> 
-    </>
+    <CustomSelect 
+      key={"state_id"}
+      name={"state_id"} 
+      required={required} 
+      value={data.state_id}
+      options={stateOptions} 
+      loading={loading || loadingStates}
+      disabled={disabled || loadingStates}
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["state_id" as keyof Values]: target?.id, ["region_id" as keyof Values]: null }))} 
+    /> 
   )
 }
 

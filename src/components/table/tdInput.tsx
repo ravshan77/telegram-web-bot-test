@@ -28,7 +28,7 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
     case FieldType.TEXT:
       return (
         <Input
-          className={cn("rounded-none border-none", col.className)}
+          className={cn("rounded-none border-none max-h-8", col.className)}
           value={(row[fieldKey] as string) || ""}
           {...col}
           onChange={(e) => handleInputChange({row, col, value:e.target.value})} 
@@ -38,7 +38,7 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
     case FieldType.DATE:
       return (
         <Input
-          className={cn("rounded-none", col.className)}
+          className={cn("rounded-none max-h-8", col.className)}
           value={(row[fieldKey] as string) || ""}
           type="date"
           {...col}
@@ -57,7 +57,7 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
 
       return (
         <Select
-          className={cn("rounded-none", col.className)}
+          className={cn("rounded-none max-h-8 border border-red-500", col.className)}
           options={col.options}
           value={String(row[fieldKey])}
           {...col}
@@ -68,11 +68,11 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
     case FieldType.DELETE_ROW:
       return (
         <Button
-          className={cn("rounded-none text-red-500 hover:text-red-700 bg-red-500", col.className)}
+          className={cn("rounded-none w-full", col.className)}
           onClick={() => deleteRow(row) }
           style={col.style}
+          variant=""
           type="button"
-          // {...col}
         >
           <Trash2 className="cursor-pointer text-black"/>
         </Button>

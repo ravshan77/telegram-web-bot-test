@@ -40,14 +40,14 @@ const WorkedBeforesTable = ({ setData, data }: Props) => {
             fieldType: FieldType.DATE,
             field: "start_date",
             required: true,
-            className:"w-[200px]",
+            className:"min-w-[210px] w-full",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
             title:"Ish joyi nomi",
             fieldType: FieldType.TEXT,
             field: "company_name",
-            className:"w-[280px]",
+            className:"min-w-[280px]",
             required: true,
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
@@ -73,7 +73,6 @@ const WorkedBeforesTable = ({ setData, data }: Props) => {
           fieldType: FieldType.TEXT,
           field: "position",
           required: true,
-        //   className:"w-[200px]",
           onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
       },
       ]
@@ -81,7 +80,7 @@ const WorkedBeforesTable = ({ setData, data }: Props) => {
       
 
   return (
-      <div>
+      <div className="space-y-2">
         <label className="text-sm font-medium text-white"> Qayerda qachon va kim bo'lib ishlagansiz?. Sizning rasmiy va norasmiy ish tajribangiz biz uchun muhim. * </label>
         <div>
           <DynamicTable<AnketaWorkedBefores, Values> 

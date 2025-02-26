@@ -14,7 +14,7 @@ interface ChangeTable {
   row: AnketaHealthys; 
 }
 
-const HealthysTable = ({ setData, data }: Props) => {
+const HealthyTable = ({ setData, data }: Props) => {
 
     const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
         setData((prev) => {
@@ -39,8 +39,8 @@ const HealthysTable = ({ setData, data }: Props) => {
             fieldType: FieldType.TEXT,
             field: "question",
             required: true,
-            disabled:true,
-            className:"w-[280px]",
+            readOnly:true,
+            className:"w-[300px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -49,7 +49,7 @@ const HealthysTable = ({ setData, data }: Props) => {
             field: "level",
             options: localOptions.switch,
             required: true,
-            className:"w-[100px]",
+            className:"w-[110px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -78,4 +78,4 @@ const HealthysTable = ({ setData, data }: Props) => {
   )
 }
 
-export default HealthysTable
+export default HealthyTable

@@ -44,7 +44,7 @@ const AnketaRelationsTable = ({ setData, data }: Props) => {
             placeholder: "Kim",
             required: true,
             options: localOptions.kinship,
-            className:"w-[200px]",
+            className:"w-[180px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -58,8 +58,6 @@ const AnketaRelationsTable = ({ setData, data }: Props) => {
             field: "",
             rowSpan:2,
             fieldType: FieldType.DELETE_ROW,
-            icon: "🗑️",
-            className:"h-20 ",
         },
       ],
       [
@@ -68,7 +66,7 @@ const AnketaRelationsTable = ({ setData, data }: Props) => {
             fieldType: FieldType.TEXT,
             field: "job",
             required: true,
-            className:"w-[200px]",
+            className:"w-[270px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         }
       ]

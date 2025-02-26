@@ -1,7 +1,6 @@
 import DynamicTable from "@/components/table/Table";
 import { FieldType, localOptions } from "@/constants";
-import { Values, ColumnConfig, AnketaPrograms } from "../types";
-
+import { Values, ColumnConfig, AnketaChildrens } from "../types";
 
 interface Props {
   data: Values,
@@ -11,14 +10,14 @@ interface Props {
 interface ChangeTable {
   new_value: string; 
   col: ColumnConfig; 
-  row: AnketaPrograms; 
+  row: AnketaChildrens; 
 }
 
-const ProgramsTable = ({ setData, data }: Props) => {
+const AnketaChildrensTable = ({ setData, data }: Props) => {
 
   const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
       setData((prev) => {
-        const table = prev.anketa_progs;
+        const table = prev.anketa_childrens;
         if (Array.isArray(table)) {
           const updatedTable = table.map((dta) => {
             if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -28,7 +27,7 @@ const ProgramsTable = ({ setData, data }: Props) => {
             }
             return dta;
           });
-          return { ...prev, anketa_progs: updatedTable };
+          return { ...prev, anketa_childrens: updatedTable };
         }
         return prev;
       });
@@ -37,21 +36,20 @@ const ProgramsTable = ({ setData, data }: Props) => {
   const columns: ColumnConfig[][] = [
     [
       {
-          title:"Dastur",
+          title:"Farzandi",
           fieldType: FieldType.SELECT,
-          field: "name",
-          options: localOptions.programma,
+          field: "gender",
+          options: localOptions.gender_children,
           required: true,
-          className:"min-w-[190px]",
+          className:"min-w-[150px] w-full",
+          style:{ border:"", },
           onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
       },
       {
-          title:"Qay darajada",
-          fieldType: FieldType.SELECT,
-          field: "level",
-          options: localOptions.degrees,
-          required: true,
-          className:"min-w-[120px] w-full",
+          title:"Tug'ilgan sana",
+          fieldType: FieldType.DATE,
+          className:"min-w-[150px] w-full",
+          field: "date",
           onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
       },
       {
@@ -65,12 +63,12 @@ const ProgramsTable = ({ setData, data }: Props) => {
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> Qaysi dasturlardan foydalana olasiz? </label>
+        <label className="text-sm font-medium text-white"> Farzandlari </label>
         <div>
-          <DynamicTable<AnketaPrograms, Values> 
+          <DynamicTable<AnketaChildrens, Values> 
             columns={columns} 
-            name={"anketa_progs"} 
-            data={data.anketa_progs} 
+            name={"anketa_childrens"} 
+            data={data.anketa_childrens} 
             setData={setData} 
           />
         </div> 
@@ -78,4 +76,4 @@ const ProgramsTable = ({ setData, data }: Props) => {
   )
 }
 
-export default ProgramsTable
+export default AnketaChildrensTable

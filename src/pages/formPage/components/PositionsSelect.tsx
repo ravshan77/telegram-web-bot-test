@@ -4,11 +4,14 @@ import MultiSelect from '@/components/MultiSelect'
 
 interface Props {
   data: Values,
+  loading: boolean;
+  disabled: boolean;
+  required: boolean;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const PositionsSelect = ({data, setData}: Props) => {
+const PositionsSelect = ({data, setData, required, disabled, loading}: Props) => {
   const [positionsOptions, setPositionsOptions] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loadingPositions, setLoading] = useState(loading)
     
   useEffect(() => {
     const fetchData = async () => {
@@ -28,17 +31,16 @@ const PositionsSelect = ({data, setData}: Props) => {
   }, []);
 
   return (
-    <>
-      <MultiSelect 
-        name={"position"} 
-        loading={loading}
-        disabled={loading}
-        options={positionsOptions} 
-        value={data.position} 
-        onChange={(target) => setData((prev_values) => ({ ...prev_values, ["position" as keyof Values]: target }))} 
-        required 
-      />
-    </>
+    <MultiSelect 
+      key={"position"}
+      name={"position"} 
+      required={required} 
+      value={data.position} 
+      options={positionsOptions} 
+      loading={loading || loadingPositions}
+      disabled={ disabled || loadingPositions}
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["position" as keyof Values]: target }))} 
+    />
   )
 }
 

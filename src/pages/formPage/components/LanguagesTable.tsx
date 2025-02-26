@@ -42,7 +42,7 @@ const LanguagesTable = ({ setData, data }: Props) => {
             field: "name",
             options: localOptions.languages,
             required: true,
-            className:"w-[150px]",
+            className:"min-w-[160px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -51,15 +51,13 @@ const LanguagesTable = ({ setData, data }: Props) => {
             field: "level",
             options: localOptions.degrees,
             required: true,
-            className:"w-[150px]",
+            className:"min-w-[120px] w-full",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
             title:"O'chirish",
             field: "",
             fieldType: FieldType.DELETE_ROW,
-            icon: "🗑️",
-            className:"h-20",
         },
       ]
     ];

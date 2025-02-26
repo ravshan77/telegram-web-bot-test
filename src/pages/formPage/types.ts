@@ -7,6 +7,7 @@ export type ColumnConfig = {
   defaultValue?: any;
   required?: boolean;
   disabled?: boolean;
+  readOnly?:boolean;
   placeholder?: string;
   rowSpan?: number;
   colSpan?: number;

@@ -4,11 +4,14 @@ import { Values } from '../types'
 
 interface Props {
   data: Values,
+  loading: boolean;
+  disabled: boolean;
+  required: boolean;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const BranchesSelect = ({data, setData}: Props) => {
+const BranchesSelect = ({data, setData, required, disabled, loading}: Props) => {
   const [branchesOptions, setBranchesOptions] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loadingBranches, setLoading] = useState(loading)
     
   useEffect(() => {
     const fetchData = async () => {
@@ -28,17 +31,15 @@ const BranchesSelect = ({data, setData}: Props) => {
   }, []);
 
   return (
-    <>
-      <CustomSelect 
-        name={"branch_id"} 
-        loading={loading}
-        disabled={loading}
-        options={branchesOptions} 
-        value={data.branch_id}
-        onChange={(target) => setData((prev_values) => ({ ...prev_values, ["branch_id" as keyof Values]: target?.id }))} 
-        required 
-      /> 
-    </>
+    <CustomSelect 
+      name={"branch_id"} 
+      loading={loading || loadingBranches}
+      disabled={disabled || loadingBranches}
+      options={branchesOptions} 
+      value={data.branch_id}
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["branch_id" as keyof Values]: target?.id }))} 
+      required={required} 
+    /> 
   )
 }
 

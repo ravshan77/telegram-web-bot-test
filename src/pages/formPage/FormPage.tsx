@@ -1,36 +1,35 @@
 // import { debounce } from "lodash";
 import { Values } from "./types";
-import { User2 } from "lucide-react";
 import Select from "@/components/Select";
-import { useCallback, useState } from "react";
 import { Input } from "@/components/Input";
-// import { useTelegram } from "@/hooks/useTelegram";
-// import useCloudStorage from "@/hooks/useCloudStorage";
-import MultiSelect from "@/components/MultiSelect";
-// import ChildrenTable from "./components/AnketaRelationsTable";
+import { useCallback, useState } from "react";
+import { Textarea } from "@/components/Textarea";
+import HealthyTable from "./components/HealthyTable";
 import ImageUploader from "@/components/UploadImage";
-import { NumberInput } from "@/components/NumberInput";
-import { PhoneNumberInput } from "@/components/PhoneNumberInput";
-import { initial_values, localOptions, positionsOptions } from "@/constants/index";
-import AnketaChildrensTable from "./components/AnketaChildrensTable";
-import AnketaRelationsTable from "./components/AnketaRelationsTable";
-import EducationPlaceTable from "./components/EducationPlaceTable";
-import LanguagesTable from "./components/LanguagesTable";
 import StatesSelect from "./components/StatesSelect";
 import RegionSelect from "./components/RegionSelect";
-import BranchesSelect from "./components/BranchesSelect";
-import PositionsSelect from "./components/PositionsSelect";
+// import { useTelegram } from "@/hooks/useTelegram";
+// import MultiSelect from "@/components/MultiSelect";
+import { NumberInput } from "@/components/NumberInput";
 import ProgramsTable from "./components/ProgramsTable";
-import HealthysTable from "./components/Healthystable";
-import { Textarea } from "@/components/Textarea";
-import WorkedBeforesTable from "./components/WorkedbeforesTable";
+import ChildrensTable from "./components/ChildrensTable";
+import RelationsTable from "./components/RelationsTable";
+import LanguagesTable from "./components/LanguagesTable";
+import BranchesSelect from "./components/BranchesSelect";
+// import useCloudStorage from "@/hooks/useCloudStorage";
+// import ChildrenTable from "./components/RelationsTable";
+import PositionsSelect from "./components/PositionsSelect";
 import TermsOfConsentModal from "./components/TermsOfConsent";
+import { initial_values, localOptions } from "@/constants/index";
+import WorkedBeforesTable from "./components/WorkedBeforesTable";
+import { PhoneNumberInput } from "@/components/PhoneNumberInput";
+import EducationPlaceTable from "./components/EducationPlaceTable";
 
 
 export function FormPage() {
   const [loading] = useState(false);
-  const [showConsentModal, setShowConsentModal] = useState(false);
   const [data, setData] = useState(initial_values);
+  const [showConsentModal, setShowConsentModal] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => { e.preventDefault() };
   // const user = useTelegram()
   // const { setItem, getItem } = useCloudStorage()
@@ -50,295 +49,211 @@ export function FormPage() {
     });
   },[])
   
-  console.log(data);
-  
-  
+  // console.log(data);
   
   return (
     <div className="px-4">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Anketa</h1>
-        <p className="mt-2 text-gray-600"> Пожалуйста заполните форму</p>
+      <div className="my-4">
+        <h1 className="text-center text-2xl font-bold text-white">Anketa to'ldirish</h1>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Ism *</label>
-          <div className="relative bg-white rounded-md">
-            <Input value={data.first_name} name="first_name" autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+          <Input value={data.first_name} name="first_name" autoFocus required onChange={handleChangeInput} disabled={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Familiya *</label>
-          <div className="relative bg-white rounded-md">
-            <Input value={data.last_name} name="last_name" autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+          <Input value={data.last_name} name="last_name" required onChange={handleChangeInput} disabled={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Otasining ismi *</label>
-          <div className="relative bg-white rounded-md">
-            <Input value={data.father_name} name="father_name" autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+          <Input value={data.father_name} name="father_name" required onChange={handleChangeInput} disabled={loading} />
         </div>
 
-        <div className="flex justify-between">
-          <div className="space-y-2 w-[48%]">
+        <div className="mb-4 flex justify-between">
+          <div className="w-full">
             <label className="text-sm font-medium text-white"> Tug'ilgan sana *</label>
-            <div className="relative border border-red-500">
-              <Input name="age" value={data.age} type="date" disabled={loading} onChange={handleChangeInput} />
-            </div>
+            <Input value={data.age} name="age" type="date" className="min-w-[150px]" required disabled={loading} onChange={handleChangeInput} />
           </div> 
 
-          <div className="space-y-2 w-[48%]">
+          <div className="w-full ml-2">
             <label className="text-sm font-medium text-white">Jinsingiz *</label>
-            <div className="relative">
-              <Select name={"gender"} options={localOptions.gender} value={data.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: target?.id }))} required />
-            </div>
+            <Select value={data.gender} name={"gender"} options={localOptions.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: target?.id }))} required />
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Oilaviy xolatingiz *</label>
-          <div className="relative">
-            <Select name={"martial_status"} options={localOptions.married} value={data.martial_status} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["martial_status" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"martial_status"} value={data.martial_status} options={localOptions.married} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["martial_status" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
-          <AnketaChildrensTable setData={setData} data={data} key={"anketa_childrens"} />
+        <div className="mb-4">
+          <ChildrensTable setData={setData} data={data} key={"anketa_childrens"} />
         </div>
 
-        <div className="space-y-2">
-          <AnketaRelationsTable setData={setData} data={data} key={"anketa_relations"}/>
+        <div className="mb-4">
+          <RelationsTable setData={setData} data={data} key={"anketa_relations"}/>
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Ma'lumotingiz *</label>
-          <div className="relative">
-            <Select name={"education"} options={localOptions.educational_degree} value={data.education} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["education" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"education"} value={data.education} options={localOptions.educational_degree} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["education" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <EducationPlaceTable setData={setData} data={data} key={"education_place"}/>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Bo'y va vazningiz (sm/kg) *</label>
-          <div className="relative bg-white rounded-md">
-            <Input value={data.height} name="height" autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white"> Hozirda universitet, litsey yoki kollej talabasimisiz? *</label>
+          <Select name={"now_study"} value={data.now_study} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["now_study" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white"> Siz hozirda universitet, litsey yoki kollej talabasimisiz? *</label>
-          <div className="relative">
-            <Select name={"now_study"} options={localOptions.switch} value={data.now_study} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["now_study" as keyof Values]: target?.id }))} required />
-          </div>
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white"> Qanday ta'lim shakli?</label>
+          <Select name={"type_education"} value={data.type_education} options={localOptions.education_type} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["type_education" as keyof Values]: target?.id }))} />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white"> Qanday ta'lim shakli? *</label>
-          <div className="relative">
-            <Select name={"type_education"} options={localOptions.education_type} value={data.type_education} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["type_education" as keyof Values]: target?.id }))} required />
-          </div>
-        </div>
-
-        <div className="space-y-2">
+        <div className="mb-4">
           <LanguagesTable setData={setData} data={data} key={"anketa_languages"}/>
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white">Bo'y va vazningiz (sm/kg) *</label>
+          <Input name="height" placeholder="Misol uchun: 170/65" value={data.height} onChange={handleChangeInput} required disabled={loading} />
+        </div>
+
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Viloyat (Haqiqiy turar joy) *</label>
-          <div className="relative">
-           <StatesSelect setData={setData} data={data} />
-          </div>
+          <StatesSelect setData={setData} data={data} disabled={loading} required loading={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Shaxar/Tuman (Haqiqiy turar joy) *</label>
-          <div className="relative">
-           <RegionSelect setData={setData} data={data} />
-          </div>
+          <RegionSelect setData={setData} data={data} loading={loading} required disabled={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Manzilingiz (Haqiqiy turar joy MFY, ko'cha) *</label>
-          <div className="relative bg-white rounded-md">
-            <Input value={data.last_name} name="last_name" autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+          <Input name="address" value={data.address} onChange={handleChangeInput} disabled={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qaysi filialda ishlashni xohlaysiz? *</label>
-          <div className="relative">
-           <BranchesSelect setData={setData} data={data} />
-          </div>
+          <BranchesSelect setData={setData} data={data} disabled={loading} loading={loading} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qaysi lavozimlarda ishlashni xohlaysiz? *</label>
-          <div className="relative">
-           <PositionsSelect setData={setData} data={data} />
-          </div>
+          <PositionsSelect setData={setData} data={data} loading={loading} disabled={loading} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Avval bizning kompaniyamizda ishlaganmisiz? * </label>
-          <div className="relative">
-            <Select name={"worked_company"} options={localOptions.switch} value={data.worked_company} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["worked_company" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"worked_company"} value={data.worked_company} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["worked_company" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">GARANT komponyasida ishlaydigan yaqin qarindoshingiz bormi? *</label>
-          <div className="relative bg-white rounded-md">
-            <Input value={data.relation_company} name="relation_company" autoFocus onChange={handleChangeInput} disabled={loading} placeholder="Agar bo'lsa to'liq ismi, familiyasi va lavozimini yozing." />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white"> O'zbekiston Respubilkasi fuqorosimisiz? * </label>
+          <Select name={"citizen"} value={data.citizen} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["citizen" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white"> Hozirda ish bilan ta'minlanganmisiz? * </label>
+          <Select name={"job_now"} value={data.job_now} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["job_now" as keyof Values]: target?.id }))} required />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white">GARANT komponyasida ishlaydigan yaqin qarindoshingiz bormi?</label>
+          <Input name="relation_company" value={data.relation_company} onChange={handleChangeInput} disabled={loading} placeholder="Agar bo'lsa to'liq ismi, familiyasi va lavozimini yozing." />
+        </div>
+
+        <div className="mb-4">
           <ProgramsTable setData={setData} data={data} key={"anketa_progs"}/>
         </div>
 
-        <div className="space-y-2">
-          <HealthysTable setData={setData} data={data} key={"anketa_healthys"}/>
+        <div className="mb-4">
+          <HealthyTable setData={setData} data={data} key={"anketa_healthys"}/>
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qo'shimcha ma'lumotlar </label>
-          <div className="relative bg-white rounded-md">
-            <Textarea value={data.other_info} name="other_info" rows={3} autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+          <Textarea value={data.other_info} name="other_info" rows={3} onChange={handleChangeInput} disabled={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <WorkedBeforesTable setData={setData} data={data} key={"anketa_worked_befores"}/>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Oxirgi ish joyida olgan ish xaqingiz (so'm)?</label>
-          <div className="relative bg-white rounded-md">
-            <NumberInput 
-              format={true} 
-              value={data.salary_last_job} 
-              name="salary_last_job" 
-              onChange={handleChangeInput} 
-              disabled={loading} 
-            />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white">Oxirgi ish joyida olgan ish xaqingiz? (so'm)</label>
+          <NumberInput name="salary_last_job" value={data.salary_last_job} format={true} onChange={handleChangeInput} disabled={loading}/>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Qancha maosh xoxlaysiz? (so'm)</label>
-          <div className="relative bg-white rounded-md">
-            <NumberInput 
-              format={true} 
-              value={data.payload} 
-              name="payload" 
-              required
-              onChange={handleChangeInput} 
-              disabled={loading} 
-            />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white">Qancha maosh xoxlaysiz? (so'm) *</label>
+          <NumberInput name="payload" value={data.payload} format={true} required onChange={handleChangeInput} disabled={loading}/>
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Shaxsiy avtomabilingiz bormi? * </label>
-          <div className="relative">
-            <Select name={"is_car"} options={localOptions.switch} value={data.is_car} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["is_car" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"is_car"} value={data.is_car} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["is_car" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Avtomabilingiz rusumi? * </label>
-          <div className="relative">
-            <Select name={"about_car"} options={localOptions.casr} value={data.about_car} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_car" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"about_car"} value={data.about_car} options={localOptions.casr} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_car" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white"> Xizmat safariga bora olasizmi(Boshqa viloyat yoki tuman filiallarimizda ishlay olasizmi)? * </label>
-          <div className="relative">
-            <Select name={"trip"} options={localOptions.switch} value={data.trip} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["trip" as keyof Values]: target?.id }))} required />
-          </div>
+        <div className="mb-4">
+          <label className="text-sm font-medium text-white"> Xizmat safariga bora olasizmi (Boshqa viloyat yoki tuman filiallarimizda ishlay olasizmi)? * </label>
+          <Select name={"trip"} value={data.trip} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["trip" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Bo'sh ish o'rni haqida qayerdan bildingiz? * </label>
-          <div className="relative">
-            <Select name={"about_vacancy"} options={localOptions.found_job} value={data.about_vacancy} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_vacancy" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"about_vacancy"} value={data.about_vacancy} options={localOptions.found_job} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_vacancy" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Sudlanganmisiz? * </label>
-          <div className="relative">
-            <Select name={"whether_convicted"} options={localOptions.switch} value={data.whether_convicted} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["whether_convicted" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"whether_convicted"} value={data.whether_convicted} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["whether_convicted" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Sudlanganligingiz haqida qisqacha (Qaysi moddalar bo'yicha) </label>
-          <div className="relative bg-white rounded-md">
-            <Textarea value={data.whether_convicted_description} name="whether_convicted_description" rows={2} autoFocus onChange={handleChangeInput} disabled={loading} />
-            <User2 className="absolute right-3 top-2 h-6 w-6 text-gray-400" />
-          </div>
+          <Textarea name="whether_convicted_description" value={data.whether_convicted_description} rows={2} onChange={handleChangeInput} disabled={loading} />
         </div>
 
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white">Qo'shimcha telefon raqam</label>
-          <div className="relative bg-white rounded-md">
-            <PhoneNumberInput
-              required
-              name="eddition_phone_number"
-              placeholder="+998"
-              value={data.eddition_phone_number}
-              disabled={loading}
-              format="998 ## ### ## ##"
-              onValueChange={handleChangeInput}
-            />
+          <PhoneNumberInput name="eddition_phone_number" value={data.eddition_phone_number} format="998 ## ### ## ##" placeholder="+998" disabled={loading} onValueChange={handleChangeInput}/>
+        </div>
+
+        <div className="mb-4 flex flex-col items-center justify-center">
+          <div className="w-48">
+            <label className="text-sm font-medium text-white">Shaxsiy rasmingiz * </label>
+            <ImageUploader name="image" value={data.image} required disabled={loading} loading={loading} onChange={handleChangeInput} />
           </div>
         </div>
 
-        <div className="space-y-2 flex flex-col items-center justify-center">
-          <label className="text-sm font-medium text-white">Shaxsiy rasmingiz * </label>
-          <div className="relative w-48">
-            <ImageUploader value={data.image} onChange={handleChangeInput} name="image" />
-          </div>
-        </div>
-
-        <div className="space-y-2">
+        <div className="mb-4">
           <label className="text-sm font-medium text-white"> Pasport turi * </label>
-          <div className="relative">
-            <Select name={"pasport_type"} options={localOptions.pasport_type} value={data.pasport_type} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["pasport_type" as keyof Values]: target?.id }))} required />
-          </div>
+          <Select name={"pasport_type"} value={data.pasport_type} options={localOptions.pasport_type} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["pasport_type" as keyof Values]: target?.id }))} required />
         </div>
 
-        <div className="flex justify-between">
-          <div className="space-y-2 w-[190px]">
-            <label className="text-sm font-medium text-white">Pasport rasmi(yoki ID card) * </label>
-            <div className="relative">
-              <ImageUploader value={data.pasport_image_first} onChange={handleChangeInput} name={"pasport_image_first"} />
-            </div>
+        <div className="mb-4 flex justify-between">
+          <div className=" w-[170px]">
+            <label className="text-sm font-medium text-white">Pasport rasmi (ID card) * </label>
+            <ImageUploader name={"pasport_image_first"} value={data.pasport_image_first} required disabled={loading} loading={loading} onChange={handleChangeInput} />
           </div>
 
-          <div className="space-y-2 w-[190px]">
-            <label className="text-sm font-medium text-white"> ID card orqa tomon rasmi * </label>
-            <div className="relative">
-              <ImageUploader value={data.pasport_image_second} onChange={handleChangeInput} name="pasport_image_second" />
-            </div>
+          <div className="w-[170px]">
+            <label className="text-sm font-medium text-white"> ID card orqa tomoni * </label>
+            <ImageUploader name="pasport_image_second" value={data.pasport_image_second} required disabled={loading} loading={loading} onChange={handleChangeInput} />
           </div>
         </div>
 

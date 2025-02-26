@@ -4,11 +4,14 @@ import { Values } from '../types'
 
 interface Props {
   data: Values,
+  loading: boolean;
+  disabled: boolean;
+  required: boolean;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const RegionSelect = ({data, setData}: Props) => {
+const RegionSelect = ({data, setData, loading, required, disabled}: Props) => {
   const [regionOptions, setRegionOptions] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loadingRegion, setLoading] = useState(loading)
     
   useEffect(() => {
     if (!data.state_id) {
@@ -31,18 +34,16 @@ const RegionSelect = ({data, setData}: Props) => {
   }, [data.state_id]);
 
   return (
-    <>
-      <CustomSelect 
-        name={"region_id"} 
-        key={"region_id"}
-        loading={loading}
-        disabled={loading}
-        options={regionOptions} 
-        value={data.region_id}
-        onChange={(target) => setData((prev_values) => ({ ...prev_values, ["region_id" as keyof Values]: target?.id }))} 
-        required 
-      /> 
-    </>
+    <CustomSelect 
+      name={"region_id"} 
+      key={"region_id"}
+      loading={loading || loadingRegion}
+      disabled={disabled || loadingRegion}
+      options={regionOptions} 
+      value={data.region_id}
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["region_id" as keyof Values]: target?.id }))} 
+      required={required} 
+    /> 
   )
 }
 

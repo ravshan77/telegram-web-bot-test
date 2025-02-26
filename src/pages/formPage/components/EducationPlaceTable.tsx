@@ -36,11 +36,11 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
     const columns: ColumnConfig[][] = [
       [
         {
-            title:"O'qishga qaul qilingan yil",
+            title:"O'qishga qabul qilingan yil",
             fieldType: FieldType.DATE,
             field: "start_date",
             required: true,
-            className:"w-[200px]",
+            className:"min-w-[220px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -55,8 +55,6 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
             field: "",
             rowSpan:2,
             fieldType: FieldType.DELETE_ROW,
-            icon: "🗑️",
-            className:"h-20",
         },
       ],
       [
@@ -65,7 +63,6 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
             fieldType: FieldType.DATE,
             field: "end_date",
             required: true,
-            className:"w-[200px]",
             onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
         },
         {
@@ -73,7 +70,7 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
           fieldType: FieldType.TEXT,
           field: "specialty",
           required: true,
-          className:"w-[200px]",
+          className:"min-w-[280px]",
           onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
       },
       ]
@@ -82,7 +79,7 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> Ta'lim muassasalari nomi va bitirgan yilingiz * </label>
+        <label className="text-sm font-medium text-white"> Ta'lim muassasalari nomi va bitirgan yilingiz </label>
         <div>
           <DynamicTable<EducationPlace, Values> 
             columns={columns} 

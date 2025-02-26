@@ -7,11 +7,14 @@ import imageCompression from "browser-image-compression";
 interface Props {
   name: string;
   value: string;
+  disabled: boolean;
+  required: boolean;
+  loading: boolean;
   onChange: (target: { name: string; value: string | null }) => void;
 }
 
-const ImageUploader: React.FC<Props> = ({ onChange, value, name }) => {
-  const [loading, setLoading] = useState(false);
+const ImageUploader: React.FC<Props> = ({ onChange, value, name, disabled, required, loading }) => {
+  const [loadingImage, setLoading] = useState(loading);
 
   const handleImageUpload = useCallback(async ( event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -67,8 +70,8 @@ const ImageUploader: React.FC<Props> = ({ onChange, value, name }) => {
           <Trash2 onClick={handleDelete} className="absolute h-8 w-8 p-[2px] bottom-1 right-1 rounded text-red-500 cursor-pointer" />
         </div>
       ) : (
-        <label htmlFor="uploadFile1" className="bg-white text-gray-500 font-semibold text-base rounded max-w-md h-56 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]">
-          {loading ? (
+        <label htmlFor={name} className="bg-white text-gray-500 font-semibold text-base rounded max-w-md h-56 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]">
+          {loadingImage ? (
             <div className="flex flex-col items-center">
               {/* Spinner */}
               <svg className="animate-spin h-10 w-10 text-blue-500 mb-2" viewBox="0 0 24 24">
@@ -86,8 +89,8 @@ const ImageUploader: React.FC<Props> = ({ onChange, value, name }) => {
               Rasm yuklang
             </>
           )}
-          <input type="file" id="uploadFile1" className="hidden" accept="image/*" onChange={handleImageUpload} />
-          {!loading && <p className="text-xs font-medium text-gray-400 mt-2 p-2">PNG, JPG, JPEG va WEBP ruxsat etilgan.</p>}
+          <input type="file" id={name} required={required} disabled={disabled || loadingImage || loading} className="hidden" accept="image/*" onChange={handleImageUpload} />
+          {!loadingImage && <p className="text-xs font-medium text-gray-400 mt-2 p-2">PNG, JPG, JPEG va WEBP ruxsat etilgan.</p>}
         </label>
       )}
     </div>

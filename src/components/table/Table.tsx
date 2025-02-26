@@ -1,8 +1,9 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
-import { ColumnConfig, UuidId } from "@/pages/formPage/types";
-import THeader from "./THeader";
 import TBody from "./TBody";
+import THeader from "./THeader";
+import { v4 as uuidv4 } from "uuid";
+import { FieldType } from "@/constants";
+import { ColumnConfig, UuidId } from "@/pages/formPage/types";
 
 interface TableProps<T, U> {
   data: T[];
@@ -12,6 +13,17 @@ interface TableProps<T, U> {
 }
 
 const DynamicTable = <T extends UuidId, U>({ columns, data, setData, name }: TableProps<T, U>) => {
+
+  const filterColumns = (columns: ColumnConfig[][]): ColumnConfig[][] => {
+    if (data.length) return columns;
+  
+    return columns
+      .map(row => row.filter(col => col.fieldType !== FieldType.DELETE_ROW))
+      .filter(row => row.length > 0);
+  };
+  
+  // Misol: Agar flag 0 bo‘lsa, DELETE_ROW objectlarini olib tashlaydi
+  const tableColumns = filterColumns(columns);
 
   const addRow = () => {
     const newRow: T = columns.flat().reduce(
@@ -29,9 +41,9 @@ const DynamicTable = <T extends UuidId, U>({ columns, data, setData, name }: Tab
 
   return (
     <div className="rounded-lg">
-      <table className="min-w-full min-h-40 block border-collapse border border-gray-300 bg-white overflow-auto">
-        <THeader columns={columns} name={String(name)} />
-        <TBody<T, U> data={data} columns={columns} name={name} setData={setData}/>
+      <table className="min-w-full min-h-44 block border-collapse border border-gray-300 bg-white overflow-auto">
+        <THeader columns={tableColumns} name={String(name)} />
+        <TBody<T, U> data={data} columns={tableColumns} name={name} setData={setData}/>
       </table>
       <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" type="button" onClick={addRow}>
         + Add Row

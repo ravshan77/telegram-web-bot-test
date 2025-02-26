@@ -16,6 +16,8 @@ const TBody = <T extends UuidId, U>({data, columns, setData, name}: TBProps<T, U
         <tr>
           <td colSpan={columns.flat().length} className="text-center py-4 text-gray-500">
             Ma'lumotlar kiritilmagan.
+            <br />
+            (Kiritish uchun '+' tugmasini bosing)
           </td>
         </tr>
       </tbody>
