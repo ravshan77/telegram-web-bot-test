@@ -1,5 +1,4 @@
-import { Values } from "./../pages/formPage/types";
-import { MultiOption } from "@/pages/formPage/types";
+import { AnketaHealthys, Values } from "./../pages/formPage/types";
 
 export const enum FieldType {
   TEXT = "TEXT",
@@ -8,174 +7,131 @@ export const enum FieldType {
   DELETE_ROW = "DELETE_ROW",
 }
 
-export const positionsOptions: MultiOption[] = [
-  { label: "Сотувчи", value: "Сотувчи", id: 1},
-  { label: "Омборчи", value: "Омборчи", id: 2},
-  { label: "Юк ташувчи",value: "Юк ташувчи",  id: 3},
-  { label: "Оператор",value: "Оператор", id: 11},
-  { label: "Шартнома бўлими мутаҳассиси",value: "Шартнома бўлими мутаҳассиси",  id: 4},
-  { label: "Ундирувчи",value: "Ундирувчи",  id: 5},
-  { label: "Реклама бўлими мутахассиси",value: "Реклама бўлими мутахассиси",  id: 6},
-  { label: "Мерчандайзер",value: "Мерчандайзер",  id: 7},
-  { label: "Фаррош",value: "Фаррош",  id: 8},
-  { label: "Ошпаз",value: "Ошпаз",  id: 9},
-  { label: "Хайдовчи (Лабо)",value: "Хайдовчи (Лабо)", id: 10},
-  { label: "Мебел устаси",value: "Мебел устаси", id: 13},
-  { label: "Сварщик",value: "сварщик", id: 14},
-  { label: "График дизайнер (3D MAX)",value: "График дизайнер (3D MAX)", id: 15 }
+export const healthys_man: AnketaHealthys[] = [
+  {
+    question: 'Og\'ir narsalar ko\'tara olasizmi?',
+    status: '',
+    id: '1',
+    description: '',
+    isGender: true,
+    inputId: 'anketa_healthys.0.status'
+  },
+  {
+    question: 'Yuragingizdan shikoyatingiz bormi?',
+    status: '',
+    id: '2',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.1.status'
+  },
+  {
+    question: 'Og\'ir jarroxlik amaliyotini o\'taganmisiz',
+    status: '1',
+    id: '3',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.2.status'
+  },
+  {
+    question: 'Ko\'zingizdan shikoyatingiz bormi?',
+    status: '1',
+    id: '4',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.3.status'
+  },
+  {
+    question: 'Bel og\'rig\'idan shikoyatingiz bormi?',
+    status: '1',
+    id: '5',
+    description: '',
+    isGender: true,
+    inputId: 'anketa_healthys.4.status'
+  },
+  {
+    question: 'Bir joyda turib yoki o\'tirib ishlay olasizmi?',
+    status: '2',
+    id: '6',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.5.status'
+  }
+]
+
+export const healthys_woman: AnketaHealthys[] = [    
+  {
+    question: 'Yuragingizdan shikoyatingiz bormi?',
+    status: '',
+    id: '2',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.1.status'
+  },
+  {
+    question: 'Og\'ir jarroxlik amaliyotini o\'taganmisiz',
+    status: '1',
+    id: '3',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.2.status'
+  },
+  {
+    question: 'Ko\'zingizdan shikoyatingiz bormi?',
+    status: '1',
+    id: '4',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.3.status'
+  },
+  {
+    question: 'Bir joyda turib yoki o\'tirib ishlay olasizmi?',
+    status: '2',
+    id: '6',
+    description: '',
+    isGender: false,
+    inputId: 'anketa_healthys.5.status'
+  }
 ]
 
 export const initial_values: Values = {
-  age: '2024-12-27',
-  anketa_childrens: [
-    {
-      gender: 'ўғил',
-      date: '2024-12-27',
-      uuid: 'm56r54zat15xzocbyj',
-      id: null
-    }
-  ],
-  position: [
-    {
-      label: 'Омборчи',
-      value: 'Омборчи',
-      id: 2
-    },
-    {
-      label: 'Шартнома бўлими мутаҳассиси',
-      value: 'Шартнома бўлими мутаҳассиси',
-      id: 4
-    },
-    {
-      label: 'Реклама бўлими мутахассиси',
-      value: 'Реклама бўлими мутахассиси',
-      id: 6
-    }
-  ],
-  payload: '6455654',
-  eddition_phone_number: '991940851',
-  first_name: 'sfsd',
-  last_name: 'sdfdsf',
-  father_name: 'sdfdsf',
-  gender: '1',
-  anketa_healthys: [
-    {
-      question: 'Og\'ir narsalar ko\'tara olasizmi?',
-      status: '',
-      id: '1',
-      description: '',
-      isGender: true,
-      inputId: 'anketa_healthys.0.status'
-    },
-    {
-      question: 'Yuragingizdan shikoyatingiz bormi?',
-      status: '',
-      id: '2',
-      description: '',
-      isGender: false,
-      inputId: 'anketa_healthys.1.status'
-    },
-    {
-      question: 'Og\'ir jarroxlik amaliyotini o\'taganmisiz',
-      status: '1',
-      id: '3',
-      description: '',
-      isGender: false,
-      inputId: 'anketa_healthys.2.status'
-    },
-    {
-      question: 'Ko\'zingizdan shikoyatingiz bormi?',
-      status: '1',
-      id: '4',
-      description: '',
-      isGender: false,
-      inputId: 'anketa_healthys.3.status'
-    },
-    {
-      question: 'Bel og\'rig\'idan shikoyatingiz bormi?',
-      status: '1',
-      id: '5',
-      description: '',
-      isGender: true,
-      inputId: 'anketa_healthys.4.status'
-    },
-    {
-      question: 'Bir joyda turib yoki o\'tirib ishlay olasizmi?',
-      status: '2',
-      id: '6',
-      description: '',
-      isGender: false,
-      inputId: 'anketa_healthys.5.status'
-    }
-  ],
-  martial_status: 'Турмуш_курган',
-  anketa_relations: [
-    {
-      who: '13',
-      date: '2025-02-11',
-      job: 'dfdsf',
-      uuid: 'm6zfxwa3aojk29k3mrs',
-      id: null
-    }
-  ],
-  education: 'Колледж',
-  education_place: [
-    {
-      start_date: '2025-02-11',
-      education_name: 'fsdfd',
-      end_date: '2025-02-11',
-      specialty: 'sdfsd',
-      uuid: 'm6zfy2s56e5o7dzo91d',
-      id: null
-    }
-  ],
-  height: '898',
-  now_study: '1',
-  type_education: 'Кундузги',
-  anketa_languages: [
-    {
-      name: 'Киргиз',
-      level: '40%',
-      uuid: 'm6zfz1fptyuo4mz5x6',
-      id: null
-    }
-  ],
-  state_id: '1',
-  region_id: '3',
-  address: 'Karshi',
+  age: '',
+  anketa_childrens: [],
+  position: [],
+  payload: '',
+  eddition_phone_number: '',
+  first_name: '',
+  last_name: '',
+  father_name: '',
+  gender: '',
+  anketa_healthys: [],
+  martial_status: '',
+  anketa_relations: [],
+  education: '',
+  education_place: [],
+  height: '',
+  now_study: '',
+  type_education: '',
+  anketa_languages: [],
+  state_id: '',
+  region_id: '',
+  address: '',
   relation_company: '',
-  branch_id: '65',
-  worked_company: '2',
-  citizen: '2',
-  job_now: '1',
-  anketa_progs: [
-    {
-      name: 'Excel',
-      level: '30%',
-      uuid: 'm6zg0kwoa6ezc6ma3d9',
-      id: null
-    }
-  ],
-  other_info: 'dfgfdgdf',
-  anketa_worked_befores: [
-    {
-      start_date: '2025-02-17',
-      end_date: '2025-02-17',
-      company_name: 'dfvdg',
-      position: 'dfgd',
-      uuid: 'm79g3inc12l108q88u9p',
-      id: null
-    }
-  ],
-  salary_last_job: '54564',
-  is_car: '1',
-  about_car: 'Nexia 3',
-  trip: '1',
-  about_vacancy: 'hh.uz',
-  whether_convicted: '1',
-  whether_convicted_description: 'sfgdf',
+  branch_id: '',
+  worked_company: '',
+  citizen: '',
+  job_now: '',
+  anketa_progs: [],
+  other_info: '',
+  anketa_worked_befores: [],
+  salary_last_job: '',
+  is_car: '',
+  about_car: '',
+  trip: '',
+  about_vacancy: '',
+  whether_convicted: '',
+  whether_convicted_description: '',
   image: 'telegramImage/173921558367aa52df9edb4.jpg',
-  pasport_type: 'Оддий',
+  pasport_type: '',
   pasport_image_first: 'telegramImage/173921559067aa52e6bc916.jpg',
   pasport_image_second: 'telegramImage/173982035367b38d419337f.jpg'
 }

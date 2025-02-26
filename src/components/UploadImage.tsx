@@ -37,7 +37,7 @@ const ImageUploader: React.FC<Props> = ({ onChange, value, name, disabled, requi
           if (data) onChange({ value: data, name })
           else throw new Error("Server xatoligi")
       } catch (error) {
-        alert(`Faylni konvertatsiya qilishda xatolik: ${error instanceof Error ? error.message : error}`);
+        alert(`Rasm yuklashda xatolik (admin bilan bog'laning @paloncha): ${error instanceof Error ? error.message : error}`);
       } finally{
         setLoading(false)
       }
@@ -53,7 +53,7 @@ const ImageUploader: React.FC<Props> = ({ onChange, value, name, disabled, requi
       if (data) onChange({ value: "", name })
       else throw new Error("Server xatoligi")
     } catch(error){
-      alert(`Rasm o'chirishda xatolik: ${error instanceof Error ? error.message : error}`);
+      alert(`Error deleting image: ${error instanceof Error ? error.message : error}`);
     } finally{
       setLoading(false)
     }

@@ -3,44 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+ 
     <title>Vite + React + TS</title>
   </head>
   <body>
-    <!-- <script src="https://telegram.org/js/telegram-web-app.js?56"></script> -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <div id="root" class="bg-black"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- <script>
       window.Telegram = {
-    WebApp: {
-        version: "6.1",
-        initDataUnsafe: {
+        WebApp: {
+          version: "6.1",
+          initDataUnsafe: {
             user: {
-                id: 5886555702,
-                first_name: "Test",
-                last_name: "User",
-                username: "testuser"
+              id: 5886555702,
+              first_name: "Test",
+              last_name: "User",
+              username: "testuser"
             }
-        },
-        ready: () => console.log("WebApp emulated!")
-    }
-};
+          },
+          ready: () => console.log("WebApp emulated!")
+        }
+      };
     </script> -->
     <!-- // index.html ichida Telegram Web App init qilish
-<script>
-    window.Telegram.WebApp.ready();
+    <script>
+        window.Telegram.WebApp.ready();
 
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    alert('Foydalanuvchi ma\'lumotlari:', user);
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        alert('Foydalanuvchi ma\'lumotlari:', user);
 
-    // Telegram orqali backend'ga loglar yuborish
-    fetch('https://https://e66f-92-63-205-129.ngrok-free.app/telegram-webhook/log', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: 'Web App ochildi!', user }),
-    });
-</script> -->
+        // Telegram orqali backend'ga loglar yuborish
+        fetch('https://https://e66f-92-63-205-129.ngrok-free.app/telegram-webhook/log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: 'Web App ochildi!', user }),
+        });
+    </script> -->
 
   </body>
 </html>

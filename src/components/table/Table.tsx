@@ -22,7 +22,6 @@ const DynamicTable = <T extends UuidId, U>({ columns, data, setData, name }: Tab
       .filter(row => row.length > 0);
   };
   
-  // Misol: Agar flag 0 bo‘lsa, DELETE_ROW objectlarini olib tashlaydi
   const tableColumns = filterColumns(columns);
 
   const addRow = () => {

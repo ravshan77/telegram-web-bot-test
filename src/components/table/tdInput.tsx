@@ -74,7 +74,7 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
           variant=""
           type="button"
         >
-          <Trash2 className="cursor-pointer text-black"/>
+          <Trash2 className="cursor-pointer text-red-500"/>
         </Button>
       );
 

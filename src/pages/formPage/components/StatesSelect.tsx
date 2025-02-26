@@ -21,7 +21,7 @@ const StatesSelect = ({data, setData, loading, required, disabled}: Props) => {
         const result = await response.json();
         setStateOptions(result.data); 
       } catch (error) {
-        console.error("Error fetching states:", error);
+        alert(`Error fetching states: ${error instanceof Error ? error.message : error}`);
       } finally {
         setLoading(false);
       }
@@ -39,7 +39,7 @@ const StatesSelect = ({data, setData, loading, required, disabled}: Props) => {
       options={stateOptions} 
       loading={loading || loadingStates}
       disabled={disabled || loadingStates}
-      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["state_id" as keyof Values]: target?.id, ["region_id" as keyof Values]: null }))} 
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["state_id" as keyof Values]: String(target?.id), ["region_id" as keyof Values]: null }))} 
     /> 
   )
 }

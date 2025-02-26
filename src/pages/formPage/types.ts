@@ -108,7 +108,7 @@ export type Values = {
   father_name: string;
   gender: Swetcher;
   anketa_healthys: AnketaHealthys[];
-  martial_status: "Турмуш_курган" | "Турмуш_курмаган" | "Ажрашган";
+  martial_status: "Турмуш_курган" | "Турмуш_курмаган" | "Ажрашган" | "";
   anketa_relations: AnketaRelations[];
   education: string;
   education_place: EducationPlace[];

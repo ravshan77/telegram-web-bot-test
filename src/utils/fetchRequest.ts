@@ -36,7 +36,7 @@ export const fetchRequest = async <T>( url: string, { method = "POST", data = nu
          return responseData as T
 
     } catch (error) {
-      console.error("So‘rovda xatolik yuz berdi:", error);
+      alert(`Error fetching ...: ${error instanceof Error ? error.message : error}`);
       return null;
     }
   };

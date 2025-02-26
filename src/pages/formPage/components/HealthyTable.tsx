@@ -2,12 +2,10 @@ import DynamicTable from "@/components/table/Table";
 import { FieldType, localOptions } from "@/constants";
 import { Values, ColumnConfig, AnketaHealthys } from "../types";
 
-
 interface Props {
   data: Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-
 interface ChangeTable {
   new_value: string; 
   col: ColumnConfig; 
@@ -21,7 +19,7 @@ const HealthyTable = ({ setData, data }: Props) => {
           const table = prev.anketa_healthys;
           if (Array.isArray(table)) {
             const updatedTable = table.map((dta) => {
-              if (dta?.id && row?.id && dta.id === row.id) {
+              if (dta?.id && row?.id && String(dta.id) === String(row.id)) {
                 return { ...dta, [col.field]: new_value };
               }
               return dta;

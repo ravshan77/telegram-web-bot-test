@@ -23,7 +23,7 @@ const LanguagesTable = ({ setData, data }: Props) => {
             const updatedTable = table.map((dta) => {
               if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
                 return { ...dta, [col.field]: new_value };
-              } else if (dta?.id && row?.id && dta.id === row.id) {
+              } else if (dta?.id && row?.id && String(dta.id) === String(row.id)) {
                 return { ...dta, [col.field]: new_value };
               }
               return dta;

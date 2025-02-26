@@ -21,7 +21,7 @@ const BranchesSelect = ({data, setData, required, disabled, loading}: Props) => 
         const result = await response.json();
         setBranchesOptions(result.data); 
       } catch (error) {
-        console.error("Error fetching states:", error);
+        alert(`Error fetching branches: ${error instanceof Error ? error.message : error}`);
       } finally {
         setLoading(false);
       }
@@ -37,7 +37,7 @@ const BranchesSelect = ({data, setData, required, disabled, loading}: Props) => 
       disabled={disabled || loadingBranches}
       options={branchesOptions} 
       value={data.branch_id}
-      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["branch_id" as keyof Values]: target?.id }))} 
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["branch_id" as keyof Values]: String(target?.id) }))} 
       required={required} 
     /> 
   )
