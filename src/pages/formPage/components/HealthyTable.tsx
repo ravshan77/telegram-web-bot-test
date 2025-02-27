@@ -4,6 +4,7 @@ import { Values, ColumnConfig, AnketaHealthys } from "../types";
 
 interface Props {
   data: Values,
+  name: keyof Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 interface ChangeTable {
@@ -12,11 +13,11 @@ interface ChangeTable {
   row: AnketaHealthys; 
 }
 
-const HealthyTable = ({ setData, data }: Props) => {
+const HealthyTable = ({ setData, data, name }: Props) => {
 
     const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
         setData((prev) => {
-          const table = prev.anketa_healthys;
+          const table = prev[name] as AnketaHealthys[];
           if (Array.isArray(table)) {
             const updatedTable = table.map((dta) => {
               if (dta?.id && row?.id && String(dta.id) === String(row.id)) {
@@ -24,7 +25,7 @@ const HealthyTable = ({ setData, data }: Props) => {
               }
               return dta;
             });
-            return { ...prev, anketa_healthys: updatedTable };
+            return { ...prev, [name]: updatedTable };
           }
           return prev;
         });

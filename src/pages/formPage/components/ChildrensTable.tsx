@@ -1,10 +1,12 @@
 import DynamicTable from "@/components/table/Table";
 import { FieldType, localOptions } from "@/constants";
 import { Values, ColumnConfig, AnketaChildrens } from "../types";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   data: Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
+  name: keyof Values;
 }
 
 interface ChangeTable {
@@ -13,11 +15,11 @@ interface ChangeTable {
   row: AnketaChildrens; 
 }
 
-const AnketaChildrensTable = ({ setData, data }: Props) => {
+const AnketaChildrensTable = ({ setData, data, name }: Props) => {
 
   const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
       setData((prev) => {
-        const table = prev.anketa_childrens;
+        const table = prev[name] as AnketaChildrens[];
         if (Array.isArray(table)) {
           const updatedTable = table.map((dta) => {
             if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -27,7 +29,7 @@ const AnketaChildrensTable = ({ setData, data }: Props) => {
             }
             return dta;
           });
-          return { ...prev, anketa_childrens: updatedTable };
+          return { ...prev, [name]: updatedTable };
         }
         return prev;
       });
@@ -59,11 +61,26 @@ const AnketaChildrensTable = ({ setData, data }: Props) => {
       },
     ]
   ];
+
+
+  const addRow = () => {
+    const newRow: AnketaChildrens = columns.flat().reduce(
+      (acc, column) => {
+        if (column.field) {
+          acc[column.field as keyof AnketaChildrens] = column?.defaultValue || "";
+        }
+        return acc;
+      },
+      { uuid: uuidv4(), id: null } as AnketaChildrens
+    );
+  
+    setData((prev) => ({ ...prev, [name]: [...(prev[name] as AnketaChildrens[]), newRow] }));
+  };
       
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> Farzandlari </label>
+        <label className="text-sm font-medium text-white"> <button onClick={addRow} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button>  Farzandlari </label>
         <div>
           <DynamicTable<AnketaChildrens, Values> 
             columns={columns} 
@@ -76,4 +93,4 @@ const AnketaChildrensTable = ({ setData, data }: Props) => {
   )
 }
 
-export default AnketaChildrensTable
+export default AnketaChildrensTable;

@@ -1,10 +1,12 @@
 import DynamicTable from "@/components/table/Table";
 import { FieldType, localOptions } from "@/constants";
 import { Values, ColumnConfig, AnketaRelations } from "../types";
+import { v4 as uuidv4 } from "uuid";
 
 
 interface Props {
   data: Values,
+  name: keyof Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 
@@ -14,11 +16,11 @@ interface ChangeTable {
   new_value: string; 
 }
 
-const AnketaRelationsTable = ({ setData, data }: Props) => {
+const AnketaRelationsTable = ({ setData, data, name }: Props) => {
 
     const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
         setData((prev) => {
-          const table = prev.anketa_relations;
+          const table = prev[name] as AnketaRelations[];
           if (Array.isArray(table)) {
             const updatedTable = table.map((dta) => {
               if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -28,10 +30,24 @@ const AnketaRelationsTable = ({ setData, data }: Props) => {
               }
               return dta;
             });
-            return { ...prev, anketa_relations: updatedTable };
+            return { ...prev, [name]: updatedTable };
           }
           return prev;
         });
+    };
+
+    const addRow = () => {
+      const newRow: AnketaRelations = columns.flat().reduce(
+        (acc, column) => {
+          if (column.field) {
+            acc[column.field as keyof AnketaRelations] = column?.defaultValue || "";
+          }
+          return acc;
+        },
+        { uuid: uuidv4(), id: null } as AnketaRelations
+      );
+    
+      setData((prev) => ({ ...prev, [name]: [...(prev[name] as AnketaRelations[]), newRow] }));
     };
 
     const columns: ColumnConfig[][] = [
@@ -75,7 +91,7 @@ const AnketaRelationsTable = ({ setData, data }: Props) => {
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> Oliaviy tarkibingiz </label>
+        <label className="text-sm font-medium text-white"> <button onClick={addRow} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> Oliaviy tarkibingiz </label>
         <div>
           <DynamicTable<AnketaRelations, Values> 
             columns={columns} 

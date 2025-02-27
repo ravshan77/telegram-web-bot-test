@@ -1,7 +1,6 @@
 import React from "react";
 import TBody from "./TBody";
 import THeader from "./THeader";
-import { v4 as uuidv4 } from "uuid";
 import { FieldType } from "@/constants";
 import { ColumnConfig, UuidId } from "@/pages/formPage/types";
 
@@ -24,29 +23,12 @@ const DynamicTable = <T extends UuidId, U>({ columns, data, setData, name }: Tab
   
   const tableColumns = filterColumns(columns);
 
-  const addRow = () => {
-    const newRow: T = columns.flat().reduce(
-      (acc, column) => {
-        if (column.field) {
-          acc[column.field as keyof T] = column.defaultValue || "";
-        }
-        return acc;
-      },
-      { uuid: uuidv4(), id: null } as T
-    );
-  
-    setData((prev) => ({ ...prev, [name]: [...(prev[name] as T[]), newRow] }));
-  };
-
   return (
     <div className="rounded-lg">
       <table className="min-w-full min-h-44 block border-collapse border border-gray-300 bg-white overflow-auto">
         <THeader columns={tableColumns} name={String(name)} />
         <TBody<T, U> data={data} columns={tableColumns} name={name} setData={setData}/>
       </table>
-      <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" type="button" onClick={addRow}>
-        + Add Row
-      </button>
     </div>
   );
 };

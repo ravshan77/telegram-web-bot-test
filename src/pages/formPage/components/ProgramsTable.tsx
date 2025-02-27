@@ -1,10 +1,11 @@
 import DynamicTable from "@/components/table/Table";
 import { FieldType, localOptions } from "@/constants";
 import { Values, ColumnConfig, AnketaPrograms } from "../types";
-
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   data: Values,
+  name: keyof Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 
@@ -14,11 +15,11 @@ interface ChangeTable {
   row: AnketaPrograms; 
 }
 
-const ProgramsTable = ({ setData, data }: Props) => {
+const ProgramsTable = ({ setData, data, name }: Props) => {
 
   const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
       setData((prev) => {
-        const table = prev.anketa_progs;
+        const table = prev[name] as AnketaPrograms[];
         if (Array.isArray(table)) {
           const updatedTable = table.map((dta) => {
             if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -28,10 +29,24 @@ const ProgramsTable = ({ setData, data }: Props) => {
             }
             return dta;
           });
-          return { ...prev, anketa_progs: updatedTable };
+          return { ...prev, [name]: updatedTable };
         }
         return prev;
       });
+  };
+
+  const addRow = () => {
+    const newRow: AnketaPrograms = columns.flat().reduce(
+      (acc, column) => {
+        if (column.field) {
+          acc[column.field as keyof AnketaPrograms] = column?.defaultValue || "";
+        }
+        return acc;
+      },
+      { uuid: uuidv4(), id: null } as AnketaPrograms
+    );
+  
+    setData((prev) => ({ ...prev, [name]: [...(prev[name] as AnketaPrograms[]), newRow] }));
   };
 
   const columns: ColumnConfig[][] = [
@@ -65,7 +80,7 @@ const ProgramsTable = ({ setData, data }: Props) => {
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> Qaysi dasturlardan foydalana olasiz? </label>
+        <label className="text-sm font-medium text-white"> <button onClick={addRow} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> Qaysi dasturlardan foydalana olasiz? </label>
         <div>
           <DynamicTable<AnketaPrograms, Values> 
             columns={columns} 

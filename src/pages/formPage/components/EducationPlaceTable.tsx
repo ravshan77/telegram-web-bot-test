@@ -1,9 +1,11 @@
 import { FieldType } from "@/constants";
 import DynamicTable from "@/components/table/Table";
 import { Values, ColumnConfig, EducationPlace } from "../types";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   data: Values,
+  name: keyof Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 
@@ -13,11 +15,11 @@ interface ChangeTable {
   new_value: string; 
 }
 
-const EducationPlaceTable = ({ setData, data }: Props) => {
+const EducationPlaceTable = ({ setData, data, name }: Props) => {
 
     const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
         setData((prev) => {
-          const table = prev.education_place;
+          const table = prev[name] as EducationPlace[];
           if (Array.isArray(table)) {
             const updatedTable = table.map((dta) => {
               if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
@@ -27,10 +29,25 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
               }
               return dta;
             });
-            return { ...prev, education_place: updatedTable };
+            return { ...prev, [name]: updatedTable };
           }
           return prev;
         });
+    };
+
+
+    const addRow = () => {
+      const newRow: EducationPlace = columns.flat().reduce(
+        (acc, column) => {
+          if (column.field) {
+            acc[column.field as keyof EducationPlace] = column?.defaultValue || "";
+          }
+          return acc;
+        },
+        { uuid: uuidv4(), id: null } as EducationPlace
+      );
+    
+      setData((prev) => ({ ...prev, [name]: [...(prev[name] as EducationPlace[]), newRow] }));
     };
 
     const columns: ColumnConfig[][] = [
@@ -79,7 +96,7 @@ const EducationPlaceTable = ({ setData, data }: Props) => {
 
   return (
       <div>
-        <label className="text-sm font-medium text-white"> Ta'lim muassasalari nomi va bitirgan yilingiz </label>
+        <label className="text-sm font-medium text-white"> <button onClick={addRow} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> Ta'lim muassasalari nomi va bitirgan yilingiz </label>
         <div>
           <DynamicTable<EducationPlace, Values> 
             columns={columns} 

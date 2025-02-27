@@ -1,5 +1,5 @@
 // import { debounce } from "lodash";
-import { Values } from "./types";
+import { ColumnConfig, Values } from "./types";
 import Select from "@/components/Select";
 import { Input } from "@/components/Input";
 import { useCallback, useState } from "react";
@@ -9,7 +9,6 @@ import ImageUploader from "@/components/UploadImage";
 import StatesSelect from "./components/StatesSelect";
 import RegionSelect from "./components/RegionSelect";
 // import { useTelegram } from "@/hooks/useTelegram";
-// import MultiSelect from "@/components/MultiSelect";
 import { NumberInput } from "@/components/NumberInput";
 import ProgramsTable from "./components/ProgramsTable";
 import ChildrensTable from "./components/ChildrensTable";
@@ -17,14 +16,20 @@ import RelationsTable from "./components/RelationsTable";
 import LanguagesTable from "./components/LanguagesTable";
 import BranchesSelect from "./components/BranchesSelect";
 // import useCloudStorage from "@/hooks/useCloudStorage";
-// import ChildrenTable from "./components/RelationsTable";
 import PositionsSelect from "./components/PositionsSelect";
 import TermsOfConsentModal from "./components/TermsOfConsent";
 import { healthys_man, healthys_woman, initial_values, localOptions } from "@/constants/index";
 import WorkedBeforesTable from "./components/WorkedBeforesTable";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import EducationPlaceTable from "./components/EducationPlaceTable";
-
+import { v4 as uuidv4 } from "uuid";
+  
+export interface ChangeTable<T extends { id?: string | number; uuid?: string }> {
+  row: T;
+  col: ColumnConfig;
+  new_value: string;
+  name: keyof Values
+}
 
 export function FormPage() {
   const [loading] = useState(false);
@@ -48,7 +53,41 @@ export function FormPage() {
       return updatedData;
     });
   },[])
+
+
+//? bu funcsiya tashqi tomondan tayyor ichkari ishlatilingan tabellarda berishni to'g'irlab chaqirishim kerak
+  const handleChangeTable = <T extends { id?: string | number; uuid?: string }>({ row, col, new_value,name }: ChangeTable<T>) => {
+    setData((prev) => {
+      if (Array.isArray(prev[name])) {
+        const table = prev[name] as T[];
+        const updatedTable = table.map((dta) => {
+          if ((dta.uuid && row.uuid && dta.uuid === row.uuid) || 
+              (dta.id && row.id && String(dta.id) === String(row.id))) {
+            return { ...dta, [col.field]: new_value };
+          }
+          return dta;
+        });
   
+        return { ...prev, [name]: updatedTable };
+      }
+  
+      return prev;
+    });
+  };
+  
+//? bu funcsiya tashqi tomondan tayyor ichkari ishlatilingan tabellarda berishni to'g'irlab chaqirishim kerak
+  const addRow = <T,>({ columns, name  }: { columns: ColumnConfig[], name: keyof Values }) => {
+    const newRow: T = columns.flat().reduce((acc, column) => {
+      if (column.field) {
+        acc[column.field as keyof T] = column?.defaultValue || "";
+      }
+        return acc;
+      },
+      { uuid: uuidv4(), id: null } as T
+    );
+  
+    setData((prev) => ({ ...prev, [name]: [...(prev[name] as T[]), newRow] }));
+  };
   
   return (
     <div className="px-4">
@@ -81,7 +120,7 @@ export function FormPage() {
 
           <div className="w-full ml-2">
             <label className="text-sm font-medium text-white">Jinsingiz *</label>
-            <Select value={data.gender} name={"gender"} options={localOptions.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: String(target?.id), anketa_healthys: data.gender === "2" ? healthys_woman : healthys_man }))} required />
+            <Select value={data.gender} name={"gender"} options={localOptions.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: String(target?.id), anketa_healthys: String(data.gender) === "1" ? healthys_woman : healthys_man }))} required />
           </div>
         </div>
 
@@ -91,11 +130,11 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <ChildrensTable setData={setData} data={data} key={"anketa_childrens"} />
+          <ChildrensTable setData={setData} data={data} name={"anketa_childrens"} />
         </div>
 
         <div className="mb-4">
-          <RelationsTable setData={setData} data={data} key={"anketa_relations"}/>
+          <RelationsTable setData={setData} data={data} name={"anketa_relations"}/>
         </div>
 
         <div className="mb-4">
@@ -104,7 +143,7 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <EducationPlaceTable setData={setData} data={data} key={"education_place"}/>
+          <EducationPlaceTable setData={setData} data={data} name={"education_place"}/>
         </div>
 
         <div className="mb-4">
@@ -118,7 +157,7 @@ export function FormPage() {
         </div> : null}
 
         <div className="mb-4">
-          <LanguagesTable setData={setData} data={data} key={"anketa_languages"}/>
+          <LanguagesTable setData={setData} data={data} name={"anketa_languages"}/>
         </div>
 
         <div className="mb-4">
@@ -172,11 +211,11 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <ProgramsTable setData={setData} data={data} key={"anketa_progs"}/>
+          <ProgramsTable setData={setData} data={data} name={"anketa_progs"}/>
         </div>
 
         <div className="mb-4">
-          <HealthyTable setData={setData} data={data} key={"anketa_healthys"}/>
+          <HealthyTable setData={setData} data={data} name={"anketa_healthys"}/>
         </div>
 
         <div className="mb-4">
@@ -185,7 +224,7 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <WorkedBeforesTable setData={setData} data={data} key={"anketa_worked_befores"}/>
+          <WorkedBeforesTable setData={setData} data={data} name={"anketa_worked_befores"}/>
         </div>
 
         <div className="mb-4">
