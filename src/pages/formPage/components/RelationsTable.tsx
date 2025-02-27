@@ -61,13 +61,13 @@ const AnketaRelationsTable = ({ setData, data, name }: Props) => {
             required: true,
             options: localOptions.kinship,
             className:"w-[180px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"Tug'ilgan sana",
             fieldType: FieldType.DATE,
             field: "date",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"O'chirish",
@@ -83,7 +83,7 @@ const AnketaRelationsTable = ({ setData, data, name }: Props) => {
             field: "job",
             required: true,
             className:"w-[270px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         }
       ]
     ];

@@ -58,14 +58,14 @@ const EducationPlaceTable = ({ setData, data, name }: Props) => {
             field: "start_date",
             required: true,
             className:"min-w-[220px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"Ta'lim muassasasi nomi",
             fieldType: FieldType.TEXT,
             field: "education_name",
             required: true,
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"O'chirish",
@@ -80,7 +80,7 @@ const EducationPlaceTable = ({ setData, data, name }: Props) => {
             fieldType: FieldType.DATE,
             field: "end_date",
             required: true,
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
           title:"Mutaxassisligingiz",
@@ -88,7 +88,7 @@ const EducationPlaceTable = ({ setData, data, name }: Props) => {
           field: "specialty",
           required: true,
           className:"min-w-[280px]",
-          onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+          onChange: handleChangeTable,
       },
       ]
     ];

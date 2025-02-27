@@ -54,6 +54,9 @@ export function FormPage() {
     });
   },[])
 
+  console.log(data);
+  
+
 
 //? bu funcsiya tashqi tomondan tayyor ichkari ishlatilingan tabellarda berishni to'g'irlab chaqirishim kerak
   const handleChangeTable = <T extends { id?: string | number; uuid?: string }>({ row, col, new_value,name }: ChangeTable<T>) => {

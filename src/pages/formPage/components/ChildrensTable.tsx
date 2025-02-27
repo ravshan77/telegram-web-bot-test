@@ -45,14 +45,14 @@ const AnketaChildrensTable = ({ setData, data, name }: Props) => {
           required: true,
           className:"min-w-[150px] w-full",
           style:{ border:"", },
-          onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+          onChange: handleChangeTable,
       },
       {
           title:"Tug'ilgan sana",
           fieldType: FieldType.DATE,
           className:"min-w-[150px] w-full",
           field: "date",
-          onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+          onChange: handleChangeTable,
       },
       {
           title:"O'chirish",

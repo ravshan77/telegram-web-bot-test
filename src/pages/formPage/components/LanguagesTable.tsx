@@ -44,7 +44,7 @@ const LanguagesTable = ({ setData, data, name }: Props) => {
             options: localOptions.languages,
             required: true,
             className:"min-w-[160px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"Qay darajada",
@@ -53,7 +53,7 @@ const LanguagesTable = ({ setData, data, name }: Props) => {
             options: localOptions.degrees,
             required: true,
             className:"min-w-[120px] w-full",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"O'chirish",

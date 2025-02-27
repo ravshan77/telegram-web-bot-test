@@ -40,7 +40,7 @@ const HealthyTable = ({ setData, data, name }: Props) => {
             required: true,
             readOnly:true,
             className:"w-[300px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"Javob",
@@ -49,14 +49,14 @@ const HealthyTable = ({ setData, data, name }: Props) => {
             options: localOptions.switch,
             required: true,
             className:"w-[110px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
         {
             title:"Izoh",
             fieldType: FieldType.TEXT,
             field: "description",
             className:"w-[250px]",
-            onChange: ({ row, col, new_value }) => handleChangeTable({ row, col, new_value }),
+            onChange: handleChangeTable,
         },
       ]
     ];
