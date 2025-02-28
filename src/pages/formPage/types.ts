@@ -13,7 +13,7 @@ export type ColumnConfig = {
   colSpan?: number;
   className?: string;
   style?: React.CSSProperties;
-  onChange?: (params: { row: any; col: ColumnConfig; new_value: any }) => void;
+  onChange?: (params: { row: any; col: ColumnConfig; new_value: any, name: keyof Values }) => void;
   onClick?: (params: any) => void;
 }
 export interface SingleOption {

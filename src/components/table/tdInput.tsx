@@ -6,20 +6,21 @@ import { FieldType } from "@/constants/";
 import { SingleValue } from "react-select";
 import Select from "@/components/table/TSelect";
 import { Input } from "@/components/table/TInput";
-import { ColumnConfig, SingleOption } from "@/pages/formPage/types";
+import { ColumnConfig, SingleOption, Values } from "@/pages/formPage/types";
 
 interface GenerateFieldProps<T> {
   row: T;
   col: ColumnConfig;
   deleteRow: (row: T) => void;
+  name: keyof Values
 }
 
-function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.Element | null {
+function generateField<T>({ col, row, deleteRow, name }: GenerateFieldProps<T>): JSX.Element | null {
   const fieldKey = col.field as keyof T;
 
   function handleInputChange<T>( {row, col, value}: { row:T, col: ColumnConfig, value: string | SingleValue<SingleOption> | Date | null}) {
     if (col.onChange) {
-      col.onChange({ row, col, new_value: value ?? null });
+      col.onChange({ row, col, new_value: value ?? null, name});
     }
   }
 
@@ -51,7 +52,7 @@ function generateField<T>({ col, row, deleteRow }: GenerateFieldProps<T>): JSX.E
       
       function handleSelect( {row, col, value} : { row:T, col: ColumnConfig, value: SingleValue<SingleOption> | SingleOption}) {
         if (col.onChange) {
-          col.onChange({ row, col, new_value: value?.id ?? null });
+          col.onChange({ row, col, new_value: value?.id ?? null, name });
         }
       }
 

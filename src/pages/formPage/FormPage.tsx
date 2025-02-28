@@ -18,10 +18,10 @@ import BranchesSelect from "./components/BranchesSelect";
 // import useCloudStorage from "@/hooks/useCloudStorage";
 import PositionsSelect from "./components/PositionsSelect";
 import TermsOfConsentModal from "./components/TermsOfConsent";
-import { healthys_man, healthys_woman, initial_values, localOptions } from "@/constants/index";
 import WorkedBeforesTable from "./components/WorkedBeforesTable";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import EducationPlaceTable from "./components/EducationPlaceTable";
+import { healthys_man, healthys_woman, initial_values, localOptions } from "@/constants/index";
 import { v4 as uuidv4 } from "uuid";
   
 export interface ChangeTable<T extends { id?: string | number; uuid?: string }> {
@@ -54,12 +54,11 @@ export function FormPage() {
     });
   },[])
 
-  console.log(data);
   
 
 
 //? bu funcsiya tashqi tomondan tayyor ichkari ishlatilingan tabellarda berishni to'g'irlab chaqirishim kerak
-  const handleChangeTable = <T extends { id?: string | number; uuid?: string }>({ row, col, new_value,name }: ChangeTable<T>) => {
+  const handleChangeTable = <T extends { id?: string | number; uuid?: string }>({ row, col, new_value, name }: ChangeTable<T>) => {
     setData((prev) => {
       if (Array.isArray(prev[name])) {
         const table = prev[name] as T[];
@@ -123,7 +122,7 @@ export function FormPage() {
 
           <div className="w-full ml-2">
             <label className="text-sm font-medium text-white">Jinsingiz *</label>
-            <Select value={data.gender} name={"gender"} options={localOptions.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: String(target?.id), anketa_healthys: String(data.gender) === "1" ? healthys_woman : healthys_man }))} required />
+            <Select value={data.gender} name={"gender"} options={localOptions.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: String(target?.id), anketa_healthys: String(target?.id) === "1" ? healthys_man : healthys_woman }))} required />
           </div>
         </div>
 
@@ -133,11 +132,11 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <ChildrensTable setData={setData} data={data} name={"anketa_childrens"} />
+          <ChildrensTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_childrens"} />
         </div>
 
         <div className="mb-4">
-          <RelationsTable setData={setData} data={data} name={"anketa_relations"}/>
+          <RelationsTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_relations"}/>
         </div>
 
         <div className="mb-4">
@@ -146,7 +145,7 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <EducationPlaceTable setData={setData} data={data} name={"education_place"}/>
+          <EducationPlaceTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"education_place"}/>
         </div>
 
         <div className="mb-4">
@@ -160,7 +159,7 @@ export function FormPage() {
         </div> : null}
 
         <div className="mb-4">
-          <LanguagesTable setData={setData} data={data} name={"anketa_languages"}/>
+          <LanguagesTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_languages"}/>
         </div>
 
         <div className="mb-4">
@@ -214,11 +213,11 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <ProgramsTable setData={setData} data={data} name={"anketa_progs"}/>
+          <ProgramsTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_progs"}/>
         </div>
 
         <div className="mb-4">
-          <HealthyTable setData={setData} data={data} name={"anketa_healthys"}/>
+          <HealthyTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_healthys"}/>
         </div>
 
         <div className="mb-4">
@@ -227,7 +226,7 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <WorkedBeforesTable setData={setData} data={data} name={"anketa_worked_befores"}/>
+          <WorkedBeforesTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_worked_befores"}/>
         </div>
 
         <div className="mb-4">

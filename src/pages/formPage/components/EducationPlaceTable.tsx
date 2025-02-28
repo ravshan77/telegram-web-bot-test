@@ -2,38 +2,40 @@ import { FieldType } from "@/constants";
 import DynamicTable from "@/components/table/Table";
 import { Values, ColumnConfig, EducationPlace } from "../types";
 import { v4 as uuidv4 } from "uuid";
+import { ChangeTable } from "../FormPage";
 
 interface Props {
   data: Values,
   name: keyof Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
+  handleChangeTable: <T extends { id?: string | number; uuid?: string }>(params: ChangeTable<T>) => void;
 }
 
-interface ChangeTable {
-  row: EducationPlace; 
-  col: ColumnConfig; 
-  new_value: string; 
-}
+// interface ChangeTable {
+//   row: EducationPlace; 
+//   col: ColumnConfig; 
+//   new_value: string; 
+// }
 
-const EducationPlaceTable = ({ setData, data, name }: Props) => {
+const EducationPlaceTable = ({ setData, data, name, handleChangeTable }: Props) => {
 
-    const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
-        setData((prev) => {
-          const table = prev[name] as EducationPlace[];
-          if (Array.isArray(table)) {
-            const updatedTable = table.map((dta) => {
-              if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
-                return { ...dta, [col.field]: new_value };
-              } else if (dta?.id && row?.id && String(dta.id) === String(row.id)) {
-                return { ...dta, [col.field]: new_value };
-              }
-              return dta;
-            });
-            return { ...prev, [name]: updatedTable };
-          }
-          return prev;
-        });
-    };
+    // const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
+    //     setData((prev) => {
+    //       const table = prev[name] as EducationPlace[];
+    //       if (Array.isArray(table)) {
+    //         const updatedTable = table.map((dta) => {
+    //           if (dta?.uuid && row?.uuid && dta.uuid === row.uuid) {
+    //             return { ...dta, [col.field]: new_value };
+    //           } else if (dta?.id && row?.id && String(dta.id) === String(row.id)) {
+    //             return { ...dta, [col.field]: new_value };
+    //           }
+    //           return dta;
+    //         });
+    //         return { ...prev, [name]: updatedTable };
+    //       }
+    //       return prev;
+    //     });
+    // };
 
 
     const addRow = () => {
@@ -98,9 +100,9 @@ const EducationPlaceTable = ({ setData, data, name }: Props) => {
       <div>
         <label className="text-sm font-medium text-white"> <button onClick={addRow} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> Ta'lim muassasalari nomi va bitirgan yilingiz </label>
         <div>
-          <DynamicTable<EducationPlace, Values> 
+          <DynamicTable<EducationPlace> 
             columns={columns} 
-            name={"education_place"} 
+            name={name} 
             data={data.education_place} 
             setData={setData} 
           />
