@@ -7,9 +7,10 @@ interface Props {
   loading: boolean;
   disabled: boolean;
   required: boolean;
+  name: keyof Values;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const RegionSelect = ({data, setData, loading, required, disabled}: Props) => {
+const RegionSelect = ({data, setData, loading, required, disabled, name}: Props) => {
   const [regionOptions, setRegionOptions] = useState([])
   const [loadingRegion, setLoading] = useState(loading)
     
@@ -35,8 +36,7 @@ const RegionSelect = ({data, setData, loading, required, disabled}: Props) => {
 
   return (
     <CustomSelect 
-      name={"region_id"} 
-      key={"region_id"}
+      name={name} 
       loading={loading || loadingRegion}
       disabled={disabled || loadingRegion}
       options={regionOptions} 

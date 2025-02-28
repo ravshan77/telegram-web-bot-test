@@ -16,6 +16,14 @@ export type ColumnConfig = {
   onChange?: (params: { row: any; col: ColumnConfig; new_value: any, name: keyof Values }) => void;
   onClick?: (params: any) => void;
 }
+
+export interface ChangeTable<T extends { id?: string | number; uuid?: string }> {
+  row: T;
+  col: ColumnConfig;
+  new_value: string;
+  name: keyof Values
+}
+
 export interface SingleOption {
   id: string | number;
   name: string;

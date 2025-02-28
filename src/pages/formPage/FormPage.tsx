@@ -1,5 +1,5 @@
+import { v4 as uuid } from "uuid";
 // import { debounce } from "lodash";
-import { ColumnConfig, Values } from "./types";
 import Select from "@/components/Select";
 import { Input } from "@/components/Input";
 import { useCallback, useState } from "react";
@@ -17,19 +17,13 @@ import LanguagesTable from "./components/LanguagesTable";
 import BranchesSelect from "./components/BranchesSelect";
 // import useCloudStorage from "@/hooks/useCloudStorage";
 import PositionsSelect from "./components/PositionsSelect";
+import { ChangeTable, ColumnConfig, Values } from "./types";
 import TermsOfConsentModal from "./components/TermsOfConsent";
 import WorkedBeforesTable from "./components/WorkedBeforesTable";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import EducationPlaceTable from "./components/EducationPlaceTable";
 import { healthys_man, healthys_woman, initial_values, localOptions } from "@/constants/index";
-import { v4 as uuidv4 } from "uuid";
-  
-export interface ChangeTable<T extends { id?: string | number; uuid?: string }> {
-  row: T;
-  col: ColumnConfig;
-  new_value: string;
-  name: keyof Values
-}
+
 
 export function FormPage() {
   const [loading] = useState(false);
@@ -47,24 +41,21 @@ export function FormPage() {
   // getItem("user_form_data").then(console.log);
 
   const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | { name: string; value: any }) => {
-    setData((prev_values) => {
-      const updatedData = "target" in e ? { ...prev_values, [e.target.name]: e.target.value } : { ...prev_values, [e.name]: e.value };
+    setData((prev) => {
+      const updatedData = "target" in e ? { ...prev, [e.target.name]: e.target.value } : { ...prev, [e.name]: e.value };
       // saveToCloudStorage(updatedData);
       return updatedData;
     });
   },[])
-
   
-
-
-//? bu funcsiya tashqi tomondan tayyor ichkari ishlatilingan tabellarda berishni to'g'irlab chaqirishim kerak
-  const handleChangeTable = <T extends { id?: string | number; uuid?: string }>({ row, col, new_value, name }: ChangeTable<T>) => {
+  
+  const handleChangeTable = useCallback(<T extends { id?: string | number; uuid?: string }>({ row, col, new_value, name }: ChangeTable<T>) => {
     setData((prev) => {
       if (Array.isArray(prev[name])) {
         const table = prev[name] as T[];
+
         const updatedTable = table.map((dta) => {
-          if ((dta.uuid && row.uuid && dta.uuid === row.uuid) || 
-              (dta.id && row.id && String(dta.id) === String(row.id))) {
+          if ((dta.uuid && row.uuid && dta.uuid === row.uuid) || (dta.id && row.id && String(dta.id) === String(row.id))) {
             return { ...dta, [col.field]: new_value };
           }
           return dta;
@@ -75,22 +66,23 @@ export function FormPage() {
   
       return prev;
     });
-  };
+  },[]);
+
   
-//? bu funcsiya tashqi tomondan tayyor ichkari ishlatilingan tabellarda berishni to'g'irlab chaqirishim kerak
-  const addRow = <T,>({ columns, name  }: { columns: ColumnConfig[], name: keyof Values }) => {
-    const newRow: T = columns.flat().reduce((acc, column) => {
+  const addRow = useCallback(({ columns, name  }: { columns: ColumnConfig[][], name: keyof Values }) => {
+    const newRow = columns.flat().reduce( (acc: { [key: string]: any }, column) => {
       if (column.field) {
-        acc[column.field as keyof T] = column?.defaultValue || "";
+        acc[column.field] = column?.defaultValue || "";
       }
         return acc;
       },
-      { uuid: uuidv4(), id: null } as T
+      { uuid: uuid(), id: null }
     );
   
-    setData((prev) => ({ ...prev, [name]: [...(prev[name] as T[]), newRow] }));
-  };
+    setData((prev) => ({ ...prev, [name]: [...prev[name], newRow] }));
+  },[]);
   
+
   return (
     <div className="px-4">
       <div className="my-4">
@@ -98,68 +90,67 @@ export function FormPage() {
       </div>
 
       <form onSubmit={handleSubmit}>
-
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Ism *</label>
-          <Input value={data.first_name} name="first_name" autoFocus required onChange={handleChangeInput} disabled={loading} />
+          <Input name="first_name" value={data.first_name} autoFocus required onChange={handleChangeInput} disabled={loading} />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Familiya *</label>
-          <Input value={data.last_name} name="last_name" required onChange={handleChangeInput} disabled={loading} />
+          <Input name="last_name" value={data.last_name} required onChange={handleChangeInput} disabled={loading} />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Otasining ismi *</label>
-          <Input value={data.father_name} name="father_name" required onChange={handleChangeInput} disabled={loading} />
+          <Input name="father_name" value={data.father_name} required onChange={handleChangeInput} disabled={loading} />
         </div>
 
         <div className="mb-4 flex justify-between">
           <div className="w-full">
             <label className="text-sm font-medium text-white"> Tug'ilgan sana *</label>
-            <Input value={data.age} name="age" type="date" className="min-w-[150px]" required disabled={loading} onChange={handleChangeInput} />
+            <Input name="age" value={data.age} type="date" className="min-w-[150px]" required disabled={loading} onChange={handleChangeInput} />
           </div> 
 
           <div className="w-full ml-2">
             <label className="text-sm font-medium text-white">Jinsingiz *</label>
-            <Select value={data.gender} name={"gender"} options={localOptions.gender} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: String(target?.id), anketa_healthys: String(target?.id) === "1" ? healthys_man : healthys_woman }))} required />
+            <Select name="gender" value={data.gender} options={localOptions.gender} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["gender" as keyof Values]: String(target?.id), anketa_healthys: String(target?.id) === "1" ? healthys_man : healthys_woman }))} />
           </div>
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Oilaviy xolatingiz *</label>
-          <Select name={"martial_status"} value={data.martial_status} options={localOptions.married} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["martial_status" as keyof Values]: String(target?.id) }))} required />
+          <Select name="martial_status" value={data.martial_status} options={localOptions.married} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["martial_status" as keyof Values]: String(target?.id) }))} />
         </div>
 
         <div className="mb-4">
-          <ChildrensTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_childrens"} />
+          <ChildrensTable name="anketa_childrens" addRow={addRow} setData={setData} data={data} handleChangeTable={handleChangeTable} />
         </div>
 
         <div className="mb-4">
-          <RelationsTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_relations"}/>
+          <RelationsTable name="anketa_relations" addRow={addRow} setData={setData} data={data} handleChangeTable={handleChangeTable}/>
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Ma'lumotingiz *</label>
-          <Select name={"education"} value={data.education} options={localOptions.educational_degree} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["education" as keyof Values]: String(target?.id) }))} required />
+          <Select name="education" value={data.education} options={localOptions.educational_degree} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["education" as keyof Values]: String(target?.id) }))} />
         </div>
 
         <div className="mb-4">
-          <EducationPlaceTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"education_place"}/>
+          <EducationPlaceTable name="education_place" addRow={addRow} setData={setData} data={data} handleChangeTable={handleChangeTable}/>
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Hozirda universitet, litsey yoki kollej talabasimisiz? *</label>
-          <Select name={"now_study"} value={data.now_study} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["now_study" as keyof Values]: String(target?.id) }))} required />
+          <Select name="now_study" value={data.now_study} options={localOptions.switch} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["now_study" as keyof Values]: String(target?.id) }))} />
         </div>
 
         { data.now_study === "1" ? <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qanday ta'lim shakli? *</label>
-          <Select name={"type_education"} value={data.type_education} required={data.now_study === "1"} options={localOptions.education_type} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["type_education" as keyof Values]: String(target?.id) }))} />
+          <Select name="type_education" value={data.type_education} options={localOptions.education_type} required={data.now_study === "1"} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["type_education" as keyof Values]: String(target?.id) }))} />
         </div> : null}
 
         <div className="mb-4">
-          <LanguagesTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_languages"}/>
+          <LanguagesTable name="anketa_languages" addRow={addRow} setData={setData} data={data} handleChangeTable={handleChangeTable}/>
         </div>
 
         <div className="mb-4">
@@ -169,12 +160,12 @@ export function FormPage() {
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Viloyat (Haqiqiy turar joy) *</label>
-          <StatesSelect setData={setData} data={data} disabled={loading} required loading={loading} />
+          <StatesSelect name="state_id" data={data} setData={setData} disabled={loading} required loading={loading} />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Shaxar/Tuman (Haqiqiy turar joy) *</label>
-          <RegionSelect setData={setData} data={data} loading={loading} required disabled={loading} />
+          <RegionSelect name="region_id" data={data} setData={setData} loading={loading} required disabled={loading} />
         </div>
 
         <div className="mb-4">
@@ -184,27 +175,27 @@ export function FormPage() {
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qaysi filialda ishlashni xohlaysiz? *</label>
-          <BranchesSelect setData={setData} data={data} disabled={loading} loading={loading} required />
+          <BranchesSelect name="branch_id" data={data} setData={setData} disabled={loading} loading={loading} required />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qaysi lavozimlarda ishlashni xohlaysiz? *</label>
-          <PositionsSelect setData={setData} data={data} loading={loading} disabled={loading} required />
+          <PositionsSelect name="position" data={data} setData={setData} loading={loading} disabled={loading} required />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Avval bizning kompaniyamizda ishlaganmisiz? * </label>
-          <Select name={"worked_company"} value={data.worked_company} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["worked_company" as keyof Values]: String(target?.id) }))} required />
+          <Select name="worked_company" value={data.worked_company} options={localOptions.switch} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["worked_company" as keyof Values]: String(target?.id) }))} />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> O'zbekiston Respubilkasi fuqorosimisiz? * </label>
-          <Select name={"citizen"} value={data.citizen} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["citizen" as keyof Values]: String(target?.id) }))} required />
+          <Select name="citizen" value={data.citizen} options={localOptions.switch} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["citizen" as keyof Values]: String(target?.id) }))} />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Hozirda ish bilan ta'minlanganmisiz? * </label>
-          <Select name={"job_now"} value={data.job_now} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["job_now" as keyof Values]: String(target?.id) }))} required />
+          <Select name="job_now" value={data.job_now} options={localOptions.switch} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["job_now" as keyof Values]: String(target?.id) }))} />
         </div>
 
         <div className="mb-4">
@@ -213,20 +204,20 @@ export function FormPage() {
         </div>
 
         <div className="mb-4">
-          <ProgramsTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_progs"}/>
+          <ProgramsTable name="anketa_progs" data={data} setData={setData} handleChangeTable={handleChangeTable} addRow={addRow}/>
         </div>
 
         <div className="mb-4">
-          <HealthyTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_healthys"}/>
+          <HealthyTable name="anketa_healthys" data={data} setData={setData} handleChangeTable={handleChangeTable}/>
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Qo'shimcha ma'lumotlar </label>
-          <Textarea value={data.other_info} name="other_info" rows={3} onChange={handleChangeInput} disabled={loading} />
+          <Textarea name="other_info" value={data.other_info} rows={3} onChange={handleChangeInput} disabled={loading} />
         </div>
 
         <div className="mb-4">
-          <WorkedBeforesTable setData={setData} data={data} handleChangeTable={handleChangeTable} name={"anketa_worked_befores"}/>
+          <WorkedBeforesTable name="anketa_worked_befores" data={data} setData={setData} handleChangeTable={handleChangeTable} addRow={addRow}/>
         </div>
 
         <div className="mb-4">
@@ -241,27 +232,27 @@ export function FormPage() {
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Shaxsiy avtomabilingiz bormi? * </label>
-          <Select name={"is_car"} value={data.is_car} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["is_car" as keyof Values]: String(target?.id) }))} required />
+          <Select name="is_car" value={data.is_car} options={localOptions.switch} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["is_car" as keyof Values]: String(target?.id) }))} />
         </div>
 
         { data.is_car === "1" ? <div className="mb-4">
           <label className="text-sm font-medium text-white"> Avtomabilingiz rusumi? * </label>
-          <Select name={"about_car"} value={data.about_car} required={data.is_car === "1"} options={localOptions.casr} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_car" as keyof Values]: String(target?.id) }))} />
+          <Select name="about_car" value={data.about_car} required={data.is_car === "1"} options={localOptions.casr} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_car" as keyof Values]: String(target?.id) }))} />
         </div> : null}
 
         { String(data.gender) === "1" ? <div className="mb-4">
           <label className="text-sm font-medium text-white"> Xizmat safariga bora olasizmi (Boshqa viloyat yoki tuman filiallarimizda ishlay olasizmi)? * </label>
-          <Select name={"trip"} value={data.trip} required={String(data.gender) === "1"} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["trip" as keyof Values]: String(target?.id) }))} />
+          <Select name="trip" value={data.trip} required={String(data.gender) === "1"} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["trip" as keyof Values]: String(target?.id) }))} />
         </div> : null}
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Bo'sh ish o'rni haqida qayerdan bildingiz? * </label>
-          <Select name={"about_vacancy"} value={data.about_vacancy} options={localOptions.found_job} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_vacancy" as keyof Values]: String(target?.id) }))} required />
+          <Select name="about_vacancy" value={data.about_vacancy} options={localOptions.found_job} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["about_vacancy" as keyof Values]: String(target?.id) }))} />
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Sudlanganmisiz? * </label>
-          <Select name={"whether_convicted"} value={data.whether_convicted} options={localOptions.switch} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["whether_convicted" as keyof Values]: String(target?.id) }))} required />
+          <Select name="whether_convicted" value={data.whether_convicted} options={localOptions.switch} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["whether_convicted" as keyof Values]: String(target?.id) }))} />
         </div>
 
         { data.whether_convicted === "1" ? <div className="mb-4">
@@ -283,7 +274,7 @@ export function FormPage() {
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white"> Pasport turi * </label>
-          <Select name={"pasport_type"} value={data.pasport_type} options={localOptions.pasport_type} onChange={(target) => setData((prev_values) => ({ ...prev_values, ["pasport_type" as keyof Values]: String(target?.id) }))} required />
+          <Select name="pasport_type" value={data.pasport_type} options={localOptions.pasport_type} required onChange={(target) => setData((prev_values) => ({ ...prev_values, ["pasport_type" as keyof Values]: String(target?.id) }))} />
         </div>
 
         {/* green pasport */}
@@ -291,13 +282,13 @@ export function FormPage() {
         <div className="mb-4 flex flex-col items-center justify-center">
           <div className="w-64">
             <label className="text-sm font-medium text-white">Pasport rasmi (to'liq va tiniq xolatda) * </label>
-            <ImageUploader name={"pasport_image_first"} value={data.pasport_image_first} required disabled={loading} loading={loading} onChange={handleChangeInput} />
+            <ImageUploader name="pasport_image_first" value={data.pasport_image_first} required disabled={loading} loading={loading} onChange={handleChangeInput} />
           </div>
         </div>) : 
         (<div className="mb-4 flex justify-between">
           <div className="w-[170px]">
             <label className="text-sm font-medium text-white"> ID karta old tomoni * </label>
-            <ImageUploader name={"pasport_image_first"} value={data.pasport_image_first} required disabled={loading} loading={loading} onChange={handleChangeInput} />
+            <ImageUploader name="pasport_image_first" value={data.pasport_image_first} required disabled={loading} loading={loading} onChange={handleChangeInput} />
           </div>
 
           <div className="w-[170px]">

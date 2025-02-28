@@ -4,12 +4,13 @@ import MultiSelect from '@/components/MultiSelect'
 
 interface Props {
   data: Values,
+  name: keyof Values;
   loading: boolean;
   disabled: boolean;
   required: boolean;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const PositionsSelect = ({data, setData, required, disabled, loading}: Props) => {
+const PositionsSelect = ({data, setData, required, disabled, loading, name}: Props) => {
   const [positionsOptions, setPositionsOptions] = useState([])
   const [loadingPositions, setLoading] = useState(loading)
     
@@ -49,8 +50,7 @@ const PositionsSelect = ({data, setData, required, disabled, loading}: Props) =>
 
   return (
     <MultiSelect 
-      key={"position"}
-      name={"position"} 
+      name={name} 
       required={required} 
       value={data.position} 
       options={options} 

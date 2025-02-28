@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 interface Props {
-    showConsentModal: boolean
-    setShowConsentModal: React.Dispatch<React.SetStateAction<boolean>>
+  showConsentModal: boolean
+  setShowConsentModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function TermsOfConsentModal({ showConsentModal, setShowConsentModal }: Props) {

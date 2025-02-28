@@ -1,7 +1,6 @@
 import DynamicTable from "@/components/table/Table";
 import { FieldType, localOptions } from "@/constants";
-import { Values, ColumnConfig, AnketaHealthys } from "../types";
-import { ChangeTable } from "../FormPage";
+import { Values, ColumnConfig, AnketaHealthys, ChangeTable } from "../types";
 
 interface Props {
   data: Values,
@@ -9,29 +8,8 @@ interface Props {
   setData: React.Dispatch<React.SetStateAction<Values>>,
   handleChangeTable: <T extends { id?: string | number; uuid?: string }>(params: ChangeTable<T>) => void;
 }
-// interface ChangeTable {
-//   new_value: string; 
-//   col: ColumnConfig; 
-//   row: AnketaHealthys; 
-// }
 
 const HealthyTable = ({ setData, data, name, handleChangeTable }: Props) => {
-
-    // const handleChangeTable = ({ row, col, new_value } : ChangeTable) => {
-    //     setData((prev) => {
-    //       const table = prev[name] as AnketaHealthys[];
-    //       if (Array.isArray(table)) {
-    //         const updatedTable = table.map((dta) => {
-    //           if (dta?.id && row?.id && String(dta.id) === String(row.id)) {
-    //             return { ...dta, [col.field]: new_value };
-    //           }
-    //           return dta;
-    //         });
-    //         return { ...prev, [name]: updatedTable };
-    //       }
-    //       return prev;
-    //     });
-    // };
 
     const columns: ColumnConfig[][] = [
       [

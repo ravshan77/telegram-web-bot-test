@@ -7,9 +7,10 @@ interface Props {
   loading: boolean;
   disabled: boolean;
   required: boolean;
+  name: keyof Values;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const StatesSelect = ({data, setData, loading, required, disabled}: Props) => {
+const StatesSelect = ({data, setData, loading, required, disabled, name}: Props) => {
   const [stateOptions, setStateOptions] = useState([])
   const [loadingStates, setLoading] = useState(loading)
     
@@ -32,8 +33,7 @@ const StatesSelect = ({data, setData, loading, required, disabled}: Props) => {
 
   return (
     <CustomSelect 
-      key={"state_id"}
-      name={"state_id"} 
+      name={name} 
       required={required} 
       value={data.state_id}
       options={stateOptions} 

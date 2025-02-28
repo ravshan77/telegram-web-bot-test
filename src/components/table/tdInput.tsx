@@ -58,7 +58,7 @@ function generateField<T>({ col, row, deleteRow, name }: GenerateFieldProps<T>):
 
       return (
         <Select
-          className={cn("rounded-none max-h-8 border border-red-500", col.className)}
+          className={cn("rounded-none max-h-8", col.className)}
           options={col.options}
           value={String(row[fieldKey])}
           {...col}
@@ -69,7 +69,7 @@ function generateField<T>({ col, row, deleteRow, name }: GenerateFieldProps<T>):
     case FieldType.DELETE_ROW:
       return (
         <Button
-          className={cn("rounded-none w-full", col.className)}
+          className={cn("rounded-none w-full h-10", col.className)}
           onClick={() => deleteRow(row) }
           style={col.style}
           variant=""

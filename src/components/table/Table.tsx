@@ -3,6 +3,7 @@ import TBody from "./TBody";
 import THeader from "./THeader";
 import { FieldType } from "@/constants";
 import { ColumnConfig, UuidId, Values } from "@/pages/formPage/types";
+import { cn } from "@/lib/utils";
 
 interface TableProps<T> {
   data: T[];
@@ -25,7 +26,7 @@ const DynamicTable = <T extends UuidId>({ columns, data, setData, name }: TableP
 
   return (
     <div className="rounded-lg">
-      <table className="min-w-full min-h-44 block border-collapse border border-gray-300 bg-white overflow-auto">
+      <table className={cn("min-w-full block border-collapse border border-gray-300 bg-white overflow-auto", tableColumns.length > 1 ? "min-h-56" : "min-h-44" )}>
         <THeader columns={tableColumns} name={String(name)} />
         <TBody<T> data={data} columns={tableColumns} name={name} setData={setData}/>
       </table>

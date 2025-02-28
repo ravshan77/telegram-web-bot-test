@@ -7,9 +7,10 @@ interface Props {
   loading: boolean;
   disabled: boolean;
   required: boolean;
+  name: keyof Values;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
-const BranchesSelect = ({data, setData, required, disabled, loading}: Props) => {
+const BranchesSelect = ({data, setData, required, disabled, loading, name}: Props) => {
   const [branchesOptions, setBranchesOptions] = useState([])
   const [loadingBranches, setLoading] = useState(loading)
     
@@ -32,7 +33,7 @@ const BranchesSelect = ({data, setData, required, disabled, loading}: Props) => 
 
   return (
     <CustomSelect 
-      name={"branch_id"} 
+      name={name} 
       loading={loading || loadingBranches}
       disabled={disabled || loadingBranches}
       options={branchesOptions} 

@@ -1,57 +1,16 @@
 import { FieldType } from "@/constants";
 import DynamicTable from "@/components/table/Table";
-import { Values, ColumnConfig, AnketaWorkedBefores } from "../types";
-import { v4 as uuidv4 } from "uuid";
-import { ChangeTable } from "../FormPage";
-
+import { Values, ColumnConfig, AnketaWorkedBefores, ChangeTable } from "../types";
 
 interface Props {
   data: Values,
   name: keyof Values,
   setData: React.Dispatch<React.SetStateAction<Values>>,
+  addRow: (args: { columns: ColumnConfig[][]; name: keyof Values }) => void;
   handleChangeTable: <T extends { id?: string | number; uuid?: string }>(params: ChangeTable<T>) => void;
 }
 
-// interface ChangeTable<T extends { id?: string | number; uuid?: string }> {
-//   row: T;
-//   col: ColumnConfig;
-//   new_value: string;
-// }
-
-const WorkedBeforesTable = ({ setData, data, name, handleChangeTable }: Props) => {
-
-  // const handleChangeTable = <T extends { id?: string | number; uuid?: string }>({ row, col, new_value }: ChangeTable<T>) => {
-  //   setData((prev) => {
-  //     if (Array.isArray(prev[name])) {
-  //       const table = prev[name] as T[];
-  //       const updatedTable = table.map((dta) => {
-  //         if ((dta.uuid && row.uuid && dta.uuid === row.uuid) || 
-  //             (dta.id && row.id && String(dta.id) === String(row.id))) {
-  //           return { ...dta, [col.field]: new_value };
-  //         }
-  //         return dta;
-  //       });
-  
-  //       return { ...prev, [name]: updatedTable };
-  //     }
-  
-  //     return prev;
-  //   });
-  // };
-
-
-  const addRow = () => {
-    const newRow: AnketaWorkedBefores = columns.flat().reduce((acc, column) => {
-      if (column.field) {
-        acc[column.field as keyof AnketaWorkedBefores] = column?.defaultValue || "";
-      }
-        return acc;
-      },
-      { uuid: uuidv4(), id: null } as AnketaWorkedBefores
-    );
-  
-    setData((prev) => ({ ...prev, [name]: [...(prev[name] as AnketaWorkedBefores[]), newRow] }));
-  };
+const WorkedBeforesTable = ({ setData, data, name, handleChangeTable, addRow }: Props) => {
 
   const columns: ColumnConfig[][] = [
     [
@@ -98,10 +57,12 @@ const WorkedBeforesTable = ({ setData, data, name, handleChangeTable }: Props) =
     ]
   ];
       
-
   return (
       <div className="space-y-2">
-        <label className="text-sm font-medium text-white"> <button onClick={addRow} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> Qayerda qachon va kim bo'lib ishlagansiz?. Sizning rasmiy va norasmiy ish tajribangiz biz uchun muhim. </label>
+        <label className="text-sm font-medium text-white"> 
+          <button onClick={() => addRow({ columns, name })} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> 
+          Qayerda qachon va kim bo'lib ishlagansiz?. Sizning rasmiy va norasmiy ish tajribangiz biz uchun muhim. 
+        </label>
         <div>
           <DynamicTable<AnketaWorkedBefores> 
             columns={columns} 
