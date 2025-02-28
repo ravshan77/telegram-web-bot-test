@@ -42,7 +42,7 @@ const AnketaChildrensTable = ({ setData, data, name, handleChangeTable, addRow }
   return (
       <div>
         <label className="text-sm font-medium text-white"> 
-          <button onClick={() => addRow({ columns, name })} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> 
+          <button onClick={() => addRow({ columns, name })} type="button" className="bg-blue-500 text-white px-3 mr-2 rounded hover:bg-blue-600" >+</button> 
           Farzandlari 
         </label>
         <div>

@@ -60,7 +60,7 @@ const WorkedBeforesTable = ({ setData, data, name, handleChangeTable, addRow }: 
   return (
       <div className="space-y-2">
         <label className="text-sm font-medium text-white"> 
-          <button onClick={() => addRow({ columns, name })} type="button" className="bg-blue-500 text-white px-3 rounded hover:bg-blue-600" >+</button> 
+          <button onClick={() => addRow({ columns, name })} type="button" className="bg-blue-500 text-white px-3 mr-2 rounded hover:bg-blue-600" >+</button> 
           Qayerda qachon va kim bo'lib ishlagansiz?. Sizning rasmiy va norasmiy ish tajribangiz biz uchun muhim. 
         </label>
         <div>
