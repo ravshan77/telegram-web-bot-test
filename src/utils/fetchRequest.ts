@@ -1,10 +1,9 @@
 import { BaseUrl } from "@/baseUrl";
 
 type FetchMethod = "GET" | "POST" | "PUT" | "DELETE";
-
 interface FetchOptions {
-  method?: FetchMethod;
   data?: any;
+  method?: FetchMethod;
   headers?: HeadersInit;
 }
 
@@ -25,11 +24,9 @@ export const fetchRequest = async <T>( url: string, { method = "GET", data = nul
         }
       }
   
-      
       const fetch_url = BaseUrl+url
       const response = await fetch(fetch_url, options);
 
-      
       if (!response.ok) {
         throw new Error(`Xatolik: ${response.status} - ${response.statusText}`);
       }
@@ -43,7 +40,7 @@ export const fetchRequest = async <T>( url: string, { method = "GET", data = nul
         responseData = await response.text(); // FormData yoki boshqa format bo‘lsa
       }
 
-         return responseData as T
+        return responseData as T
 
     } catch (error) {
       alert(`Error fetching ...: ${error instanceof Error ? error.message : error}`);

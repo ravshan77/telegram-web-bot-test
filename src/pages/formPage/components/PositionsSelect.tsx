@@ -1,5 +1,5 @@
-import { PositionsTypes, Values } from '../types'
 import { useEffect, useState } from 'react'
+import { PositionsTypes, Values } from '../types'
 import MultiSelect from '@/components/MultiSelect'
 import { fetchRequest } from '@/utils/fetchRequest';
 
