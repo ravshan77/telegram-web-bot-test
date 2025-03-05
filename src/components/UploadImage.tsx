@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from "react";
 import { image_url } from "@/baseUrl";
 import { Trash2 } from "lucide-react";
 import { fetchRequest } from "@/utils/fetchRequest";
+import React, { useCallback, useState } from "react";
 import imageCompression from "browser-image-compression";
 
 interface Props {
   name: string;
   value: string;
+  loading: boolean;
   disabled: boolean;
   required: boolean;
-  loading: boolean;
   onChange: (target: { name: string; value: string | null }) => void;
 }
 
@@ -34,6 +34,7 @@ const ImageUploader: React.FC<Props> = ({ onChange, value, name, disabled, requi
 
         // Faylni yuborish
         const data = await fetchRequest<string>(`/anketa-web-app/store/image`, { method: "POST", data: formData,})
+
           if (data) onChange({ value: data, name })
           else throw new Error("Server xatoligi")
       } catch (error) {

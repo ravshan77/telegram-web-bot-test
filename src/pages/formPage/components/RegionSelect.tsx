@@ -1,6 +1,7 @@
 import CustomSelect from '@/components/Select'
 import { useEffect, useState } from 'react'
-import { Values } from '../types'
+import { SingleOption, Values } from '../types'
+import { fetchRequest } from '@/utils/fetchRequest';
 
 interface Props {
   data: Values,
@@ -11,38 +12,46 @@ interface Props {
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 const RegionSelect = ({data, setData, loading, required, disabled, name}: Props) => {
-  const [regionOptions, setRegionOptions] = useState([])
-  const [loadingRegion, setLoading] = useState(loading)
-    
+  const [loadingRegion, setLoading] = useState(true)
+  const [regionOptions, setRegionOptions] = useState<SingleOption[]>([])
+  
+  const state_id = data?.state_id
+
   useEffect(() => {
-    if (!data.state_id) {
+    if (!state_id) {
        return 
     }
+
+    let isMounted = true;
     const fetchData = async () => {
-      setLoading(true);
       try {
-        const response = await fetch(`https://garant-hr.uz/api/anketa/state-regions/${data.state_id}`);
-        const result = await response.json();
-        setRegionOptions(result.data);
+        const response = await fetchRequest<{ data: SingleOption[] }>(`/anketa/state-regions/${state_id}`)
+        if (isMounted && response) {
+          setRegionOptions(response.data);
+        }
       } catch (error) {
-        console.error("Error fetching states:", error);
-      } finally {
-        setLoading(false);
+        alert(`Error fetching regions (admin bilan bog'laning @paloncha): ${error}`);
+      } finally{
+        setLoading(false)
       }
     };
 
     fetchData();
-  }, [data.state_id]);
+
+    return () => {
+      isMounted = false; // Component unmounted bo'lsa, state update qilinmaydi
+    };
+  }, [state_id]);
 
   return (
     <CustomSelect 
       name={name} 
-      loading={loading || loadingRegion}
-      disabled={disabled || loadingRegion}
-      options={regionOptions} 
-      value={data.region_id}
-      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["region_id" as keyof Values]: target?.id }))} 
       required={required} 
+      value={data.region_id}
+      options={regionOptions} 
+      loading={loading || loadingRegion || !state_id}
+      disabled={disabled || loadingRegion}
+      onChange={(target) => setData((prev_values) => ({ ...prev_values, ["region_id" as keyof Values]: target?.id }))} 
     /> 
   )
 }

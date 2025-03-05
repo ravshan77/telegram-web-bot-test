@@ -4,6 +4,7 @@ import Select from "@/components/Select";
 import { Input } from "@/components/Input";
 import { useCallback, useState } from "react";
 import { Textarea } from "@/components/Textarea";
+import { fetchRequest } from "@/utils/fetchRequest";
 import HealthyTable from "./components/HealthyTable";
 import ImageUploader from "@/components/UploadImage";
 import StatesSelect from "./components/StatesSelect";
@@ -11,11 +12,11 @@ import RegionSelect from "./components/RegionSelect";
 // import { useTelegram } from "@/hooks/useTelegram";
 import { NumberInput } from "@/components/NumberInput";
 import ProgramsTable from "./components/ProgramsTable";
+// import useCloudStorage from "@/hooks/useCloudStorage";
 import ChildrensTable from "./components/ChildrensTable";
 import RelationsTable from "./components/RelationsTable";
 import LanguagesTable from "./components/LanguagesTable";
 import BranchesSelect from "./components/BranchesSelect";
-// import useCloudStorage from "@/hooks/useCloudStorage";
 import PositionsSelect from "./components/PositionsSelect";
 import { ChangeTable, ColumnConfig, Values } from "./types";
 import TermsOfConsentModal from "./components/TermsOfConsent";
@@ -26,10 +27,10 @@ import { healthys_man, healthys_woman, initial_values, localOptions } from "@/co
 
 
 export function FormPage() {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(initial_values);
   const [showConsentModal, setShowConsentModal] = useState(false);
-  const handleSubmit = async (e: React.FormEvent) => { e.preventDefault() };
+
   // const user = useTelegram()
   // const { setItem, getItem } = useCloudStorage()
   
@@ -60,7 +61,7 @@ export function FormPage() {
           }
           return dta;
         });
-  
+        // saveToCloudStorage({ ...prev, [name]: updatedTable });
         return { ...prev, [name]: updatedTable };
       }
   
@@ -82,6 +83,31 @@ export function FormPage() {
     setData((prev) => ({ ...prev, [name]: [...prev[name], newRow] }));
   },[]);
   
+  const handleSubmit = async (e: React.FormEvent) => { 
+    e.preventDefault() 
+    // ? validatsiya tekshiruvi bosqichi yakunlagandan so'ng
+
+    // 🟢 Foydalanuvchidan tasdiq olish
+    const isConfirmed = window.confirm("Anketan yuborilsinmi?");
+    if (!isConfirmed) return;
+
+
+    const sendValues = {...data, chat_id: "user?.id"};
+    setLoading(true)
+    
+    try {
+      // anketani yuborish
+      const res = await fetchRequest<any>(`/url`, { method: "POST", data: sendValues})
+        if (res) {
+          alert("anketa muvaffaqiyatli yuborildi")
+        }
+        else throw new Error("Server xatoligi")
+    } catch (error) {
+      alert(`Anketa yuborishda xatolik (admin bilan bog'laning @paloncha): ${error instanceof Error ? error.message : error}`);
+    } finally{
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="px-4">
@@ -299,7 +325,7 @@ export function FormPage() {
 
         <TermsOfConsentModal setShowConsentModal={setShowConsentModal} showConsentModal={showConsentModal}/>
         
-        <button type="submit"> submit</button>
+        <button type="submit" > submit</button>
       </form>
     </div>
   );

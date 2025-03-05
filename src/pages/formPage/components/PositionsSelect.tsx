@@ -1,34 +1,40 @@
-import { Values } from '../types'
+import { PositionsTypes, Values } from '../types'
 import { useEffect, useState } from 'react'
 import MultiSelect from '@/components/MultiSelect'
+import { fetchRequest } from '@/utils/fetchRequest';
 
 interface Props {
   data: Values,
-  name: keyof Values;
   loading: boolean;
   disabled: boolean;
   required: boolean;
+  name: keyof Values;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
 const PositionsSelect = ({data, setData, required, disabled, loading, name}: Props) => {
-  const [positionsOptions, setPositionsOptions] = useState([])
-  const [loadingPositions, setLoading] = useState(loading)
+  const [loadingPositions, setLoading] = useState(true)
+  const [positionsOptions, setPositionsOptions] = useState<PositionsTypes[]>([])
     
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
-      setLoading(true);
       try {
-        const response = await fetch("https://garant-hr.uz/api/anketa/positons/for/telegram-bot");
-        const result = await response.json();
-        setPositionsOptions(result.data); 
+        const response = await fetchRequest<{ data: PositionsTypes[] }>("/anketa/positons/for/telegram-bot");
+        if (isMounted && response) {
+          setPositionsOptions(response.data); 
+        }
       } catch (error) {
-        alert(`Error fetching positions: ${error instanceof Error ? error.message : error}`);
+        alert(`Error fetching positions: ${error}`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
+
+    return () => {
+      isMounted = false; // Component unmounted bo'lsa, state update qilinmaydi
+    };
   }, []);
 
 
@@ -51,9 +57,9 @@ const PositionsSelect = ({data, setData, required, disabled, loading, name}: Pro
   return (
     <MultiSelect 
       name={name} 
+      options={options} 
       required={required} 
       value={data.position} 
-      options={options} 
       loading={loading || loadingPositions}
       disabled={ disabled || loadingPositions}
       onChange={(target) => setData((prev_values) => ({ ...prev_values, ["position" as keyof Values]: target }))} 

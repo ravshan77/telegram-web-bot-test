@@ -1,14 +1,12 @@
-import { forwardRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { forwardRef, useEffect, useState } from "react";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   format?: boolean; // Formatlashni faollashtiruvchi prop
 }
 
-const NumberInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, error = false, format = false, value, onChange, ...props }, ref) => {
+const NumberInput = forwardRef<HTMLInputElement, InputProps>(({ className, error = false, format = false, value, onChange, ...props }, ref) => {
     const [displayValue, setDisplayValue] = useState<string>("");
 
     // Formatlash funksiyasi

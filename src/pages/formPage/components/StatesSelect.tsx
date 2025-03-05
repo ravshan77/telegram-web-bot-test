@@ -1,6 +1,7 @@
-import CustomSelect from '@/components/Select'
 import { useEffect, useState } from 'react'
-import { Values } from '../types'
+import CustomSelect from '@/components/Select'
+import { SingleOption, Values } from '../types'
+import { fetchRequest } from '@/utils/fetchRequest';
 
 interface Props {
   data: Values,
@@ -10,25 +11,33 @@ interface Props {
   name: keyof Values;
   setData: React.Dispatch<React.SetStateAction<Values>>,
 }
+
 const StatesSelect = ({data, setData, loading, required, disabled, name}: Props) => {
-  const [stateOptions, setStateOptions] = useState([])
-  const [loadingStates, setLoading] = useState(loading)
+  const [loadingStates, setLoading] = useState(true)
+  const [stateOptions, setStateOptions] = useState<SingleOption[]>([])
     
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
-      setLoading(true);
       try {
-        const response = await fetch("https://garant-hr.uz/api/anketa/states");
-        const result = await response.json();
-        setStateOptions(result.data); 
+        const response = await fetchRequest<{ data: SingleOption[] }>(`/anketa/states`)
+        if (isMounted && response) {
+          setStateOptions(response.data);
+        }
       } catch (error) {
-        alert(`Error fetching states: ${error instanceof Error ? error.message : error}`);
-      } finally {
-        setLoading(false);
+        alert(`Error fetching states (admin bilan bog'laning @paloncha): ${error}`);
+      } finally{
+        setLoading(false)
       }
     };
 
     fetchData();
+
+    return () => {
+      isMounted = false; // Component unmounted bo'lsa, state update qilinmaydi
+    };
+
+
   }, []);
 
   return (
