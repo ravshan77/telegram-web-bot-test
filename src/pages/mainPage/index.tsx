@@ -4,7 +4,6 @@ import { Button } from "@/components/Button";
 
 
 export function MainPage() {
-  
 
   return (
     <div className="border border-green-500 py-4 px-4" style={{background:"url(../assets/darkgg.svg"}}>

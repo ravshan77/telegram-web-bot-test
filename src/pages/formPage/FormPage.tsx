@@ -325,7 +325,7 @@ export function FormPage() {
 
         <TermsOfConsentModal setShowConsentModal={setShowConsentModal} showConsentModal={showConsentModal}/>
         
-        <button type="submit" > submit</button>
+        <button type="submit" className=" text-white h-10 w-full bg-blue-500"> submit</button>
       </form>
     </div>
   );

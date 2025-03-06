@@ -15,9 +15,9 @@ export default function TermsOfConsentModal({ showConsentModal, setShowConsentMo
 
     return (
       <>
-        <div className="flex space-y-2">
-          <input type="checkbox" required  checked={checkbox} onChange={e => setCheckbox(e.target.checked)} className="h-5 w-5 mt-2 mr-2"/>
-          <p className="text-sm font-medium text-white">Roziman * <span className="text-cyan-600" onClick={() => setShowConsentModal(true)}> (Rozilik shartlari bilan tanishish) </span></p>
+        <div className="flex mb-4">
+          <input type="checkbox" required  checked={checkbox} onChange={e => setCheckbox(e.target.checked)} className="h-5 w-5 "/>
+          <p className="text-sm font-medium text-white ml-3">Roziman * <span className="text-cyan-600" onClick={() => setShowConsentModal(true)}> (Rozilik shartlari bilan tanishish) </span></p>
         </div>
         {showConsentModal ? (
           <>
