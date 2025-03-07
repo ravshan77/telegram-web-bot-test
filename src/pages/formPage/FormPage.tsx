@@ -109,6 +109,9 @@ export function FormPage() {
     }
   }
 
+  console.log(data);
+  
+
   return (
     <div className="px-4">
       <div className="my-4">
@@ -248,12 +251,12 @@ export function FormPage() {
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Oxirgi ish joyida olgan ish xaqingiz? (so'm)</label>
-          <NumberInput name="salary_last_job" value={data.salary_last_job} format={true} onChange={handleChangeInput} disabled={loading}/>
+          <NumberInput name="salary_last_job" value={data.salary_last_job} onChange={handleChangeInput} disabled={loading}/>
         </div>
 
         <div className="mb-4">
           <label className="text-sm font-medium text-white">Qancha maosh xoxlaysiz? (so'm) *</label>
-          <NumberInput name="payload" value={data.payload} format={true} required onChange={handleChangeInput} disabled={loading}/>
+          <NumberInput name="payload" value={data.payload} required onChange={handleChangeInput} disabled={loading}/>
         </div>
 
         <div className="mb-4">
@@ -325,7 +328,7 @@ export function FormPage() {
 
         <TermsOfConsentModal setShowConsentModal={setShowConsentModal} showConsentModal={showConsentModal}/>
         
-        <button type="submit" className=" text-white h-10 w-full bg-blue-500"> submit</button>
+        <button type="submit" className="text-white h-10 w-full bg-blue-500"> submit</button>
       </form>
     </div>
   );
